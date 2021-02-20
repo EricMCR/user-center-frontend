@@ -5,9 +5,9 @@ Vue.use(Router)
 
 export const routes = [
     {
-        path: '/loginPage',
+        path: '/login',
         name: '登录页',
-        component: () => import('@/views/loginPage/loginPage.vue')
+        component: () => import('@/views/login/login.vue')
     },
     {
         path: '/home',

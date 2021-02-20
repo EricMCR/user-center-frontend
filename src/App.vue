@@ -1,29 +1,37 @@
 <template>
     <div id="app">
-        <img alt="Vue logo" src="./assets/logo.png">
         <router-view></router-view>
-        <!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
     </div>
 </template>
 
 <script>
-//import HelloWorld from './components/HelloWorld.vue'
 
 export default {
     name: 'App',
     components: {
-        //HelloWorld
+
+    },
+    created() {
+        this.$router.push('/login');
     }
 }
 </script>
 
 <style>
-#app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
-    color: #2c3e50;
-    margin-top: 60px;
+html{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+body{
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+#app{
+    height: 100%;
+    position: relative;
+    /*超出内容被修剪隐藏，只显示报表部分，el-table有滚动条，其余的滚动条不需要*/
+    overflow: hidden;
 }
 </style>
