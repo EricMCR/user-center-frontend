@@ -10,9 +10,9 @@ export const routes = [
         component: () => import('@/views/login/login.vue')
     },
     {
-        path: '/home',
+        path: '/homePage',
         name: '主页',
-        component: () => import('@/components/HelloWorld.vue')
+        component: () => import('@/views/homePage/homePage.vue')
     },
 ]
 

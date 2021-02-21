@@ -1,35 +1,34 @@
 <template>
-  <section class="main-box hero is-medium is-primary is-bold">
-    <div class="hero-body">
-      <div class="columns title-box">
-        <img src="../../assets/logo.png" width="40" height="40"/>
-        <div style="border-left: 2px solid; margin-left: 20px; padding-left: 20px;">
-          <h2 class="title 3">代驾信息管理系统</h2>
+    <section class="main-box hero is-medium is-primary is-bold">
+        <div class="hero-body">
+            <div class="columns title-box">
+                <img src="../../assets/logo.png" width="40" height="40"/>
+                <div style="border-left: 2px solid; margin-left: 20px; padding-left: 20px;">
+                    <h2 class="title 3">代驾信息管理系统</h2>
+                </div>
+            </div>
+            <div class="card login-box">
+                <h1 class="title is-4 container" style="width: fit-content; color: hsl(0, 0%, 29%);">登 录</h1>
+                <a-form-model ref="form" :model="form" :rules="rules">
+                    <a-form-model-item prop="mobileNo">
+                        <a-input type="number" v-model="form.mobileNo" placeholder="手机号" @keydown.native="keyRules" :maxLength="11">
+                            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+                        </a-input>
+                    </a-form-model-item>
+                    <a-form-model-item prop="password">
+                        <a-input-password v-model="form.password" placeholder="密码">
+                            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+                        </a-input-password>
+                    </a-form-model-item>
+                    <a-form-model-item>
+                        <a-checkbox v-model="rememberMe">记住我</a-checkbox>
+                        <a href="" style="float: right;">忘记密码</a>
+                        <a-button type="primary" style="width: 100%; margin-top: 15px;" @click="submit('form')">登录</a-button>
+                    </a-form-model-item>
+                </a-form-model>
+
+            </div>
         </div>
-      </div>
-      <div class="card login-box">
-        <h1 class="title is-4 container" style="width: fit-content; color: hsl(0, 0%, 29%);">登 录</h1>
-        <a-form-model ref="form" :model="form" :rules="rules">
-          <a-form-model-item prop="mobileNo">
-            <a-input type="number" v-model="form.mobileNo" placeholder="手机号" @keydown.native="keyRules" :maxLength="11">
-              <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
-            </a-input>
-          </a-form-model-item>
-          <a-form-model-item prop="password">
-            <a-input-password v-model="form.password" placeholder="密码">
-              <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
-            </a-input-password>
-          </a-form-model-item>
-          <a-form-model-item>
-            <a-checkbox v-model="rememberMe">记住我</a-checkbox>
-            <a href="" style="float: right;">忘记密码</a>
-            <a-button type="primary" style="width: 100%; margin-top: 15px;" @click="submit('form')">登录</a-button>
-          </a-form-model-item>
-        </a-form-model>
-
-
-      </div>
-    </div>
 
     </section>
 </template>
@@ -59,6 +58,7 @@ export default {
     },
     methods: {
         submit(formName){
+            this.$router.push('/homePage');
             this.$refs[formName].validate(valid => {
                 if (valid) {
                     this.$request({
