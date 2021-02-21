@@ -2,7 +2,7 @@
   <section class="main-box hero is-medium is-primary is-bold">
     <div class="hero-body">
       <div class="columns title-box">
-        <img src="../../assets/logo.png"/>
+        <img src="../../assets/logo.png" width="40" height="40"/>
         <div style="border-left: 2px solid; margin-left: 20px; padding-left: 20px;">
           <h2 class="title 3">代驾信息管理系统</h2>
         </div>
@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 export default {
     name: "login",
     data() {
@@ -72,6 +74,11 @@ export default {
                 }
             })
         },
+        //记住用户名和密码
+        rememberLoginInfo() {
+            Cookie.set('mobileNo', this.form.mobileNo);
+            Cookie.set('password', this.form.password);
+        },
         keyRules(e) {
             if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.'){
                 e.returnValue = false;
@@ -87,10 +94,10 @@ export default {
     width: 100%;
 }
 .main-box .title-box {
-  margin: 0 auto;
-  padding-bottom: 10px;
-  width: 400px;
-  height: 50px;
+    margin: 0 auto;
+    padding-bottom: 10px;
+    width: 400px;
+    height: 50px;
 }
 .main-box .login-box {
     margin: 0 auto;
