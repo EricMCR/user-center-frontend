@@ -6,12 +6,18 @@
                 <h3 class="subtitle is-4">代驾信息管理系统</h3>
             </div>
             <div class="header-logout">
-                <a-avatar
-                    shape="square"
-                    size="default"
-                    :style="{ backgroundColor: color, verticalAlign: 'middle' }">
-                    {{ username }}
-                </a-avatar>
+
+                <a-dropdown :trigger="['click']" style="cursor: pointer;">
+                    <a-avatar
+                        shape="square"
+                        size="default"
+                        :style="{ backgroundColor: color, verticalAlign: 'middle' }">
+                        {{ username }}
+                    </a-avatar>
+                    <a-menu slot="overlay">
+                        <a-menu-item @click="logout">退出登录</a-menu-item>
+                    </a-menu>
+                </a-dropdown>
             </div>
         </a-layout-header>
         <a-layout>
@@ -90,6 +96,8 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
     name: "homePage",
     data() {
@@ -104,10 +112,14 @@ export default {
         console.log(this.username);
     },
     methods: {
+        ...mapMutations(['removeLogin']),
         initLogoutBox() {
             this.username = this.$store.state.username;
             const index = Math.round(Math.random() * 3);
             this.color = this.colorList[index];
+        },
+        logout() {
+            this.removeLogin();
         }
     }
 }
@@ -127,6 +139,7 @@ export default {
     height: 40px;
     display: flex;
     align-items: center;
+    cursor: default;
 }
 .header .header-logo h3 {
     padding: 0 10px;
