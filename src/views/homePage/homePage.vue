@@ -1,23 +1,18 @@
 <template>
     <a-layout class="full-height">
         <a-layout-header class="header">
-            <div class="logo" />
-            <a-menu
-                theme="dark"
-                mode="horizontal"
-                :default-selected-keys="['2']"
-                :style="{ lineHeight: '64px' }"
-            >
-                <a-menu-item key="1">
-                    nav 1
-                </a-menu-item>
-                <a-menu-item key="2">
-                    nav 2
-                </a-menu-item>
-                <a-menu-item key="3">
-                    nav 3
-                </a-menu-item>
-            </a-menu>
+            <div class="header-logo">
+                <img src="../../assets/logo.png" width="40" height="40" />
+                <h3 class="subtitle is-4">代驾信息管理系统</h3>
+            </div>
+            <div class="header-logout">
+                <a-avatar
+                    shape="square"
+                    size="default"
+                    :style="{ backgroundColor: color, verticalAlign: 'middle' }">
+                    {{ username }}
+                </a-avatar>
+            </div>
         </a-layout-header>
         <a-layout>
             <a-layout-sider width="200" style="background: #fff">
@@ -96,13 +91,53 @@
 
 <script>
 export default {
-name: "homePage"
+    name: "homePage",
+    data() {
+        return {
+            username: '',
+            color: '#f56a00',
+            colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
+        }
+    },
+    created() {
+        this.initLogoutBox();
+        console.log(this.username);
+    },
+    methods: {
+        initLogoutBox() {
+            this.username = this.$store.state.username;
+            const index = Math.round(Math.random() * 3);
+            this.color = this.colorList[index];
+        }
+    }
 }
 </script>
 
 <style scoped>
 .full-height {
     height: 100%;
+}
+.header {
+    padding: 5px 10px;
+    height: 50px;
+}
+.header .header-logo {
+    float: left;
+    min-width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+}
+.header .header-logo h3 {
+    padding: 0 10px;
+    color: #fff;
+}
+.header .header-logout {
+    float: right;
+    min-width: 150px;
+    height: 40px;
+    display: flex;
+    align-items: center;
 }
 .tab-container {
     width: 100%;

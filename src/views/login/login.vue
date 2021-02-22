@@ -86,7 +86,7 @@ export default {
                             }else {
                                 this.removeLoginInfo();
                             }
-                            this.changeLogin( {Authorization: res.data.data.token} );
+                            this.changeLogin( {Authorization: res.data.data.token, username: res.data.data.adminVO.name} );
                             this.$router.push('/homePage');
 
                         }
