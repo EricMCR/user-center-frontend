@@ -1,8 +1,12 @@
 import axios from 'axios'
+import store from '@/store'
 
-axios.create({
-    baseURL: 'http://197.168.26.217:8080',
+const request = axios.create({
+    baseURL: '/api',
+    headers: {
+        token: store.state.Authorization
+    },
     timeout: 50000
 });
 
-export default axios;
+export default request;

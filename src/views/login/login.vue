@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import Cookie from 'js-cookie'
 
 export default {
@@ -56,28 +57,54 @@ export default {
             rememberMe: false
         }
     },
+    created() {
+        //用户上次登录选择记住我时，使用cookie数据
+        if (Cookie.get('mobileNo') && Cookie.get('password') && Cookie.get('rememberMe')){
+            this.form.mobileNo = Cookie.get('mobileNo');
+            this.form.password = Cookie.get('password');
+            this.rememberMe = (Cookie.get('rememberMe') === 'true');
+        }
+    },
     methods: {
+        ...mapMutations(['changeLogin']),
         submit(formName){
-            this.$router.push('/homePage');
             this.$refs[formName].validate(valid => {
                 if (valid) {
                     this.$request({
                         url: '/admin/login',
-                        baseURL: 'http://197.168.26.217:8080',
-                        headers: {'X-Requested-With': 'XMLHttpRequest'},
-                        method: 'post',
+                        method: 'POST',
                         data: {
-                            mobileNo: this.form.mobileNo,
+                            phone: this.form.mobileNo,
                             password: this.form.password
+                        }
+                    }).then(res => {
+                        if (res.data.status != "200") {
+                            this.$message.error(res.data.desc);
+                        }else {
+                            if (this.rememberMe) {
+                                this.rememberLoginInfo();
+                            }else {
+                                this.removeLoginInfo();
+                            }
+                            this.changeLogin( {Authorization: res.data.data.token} );
+                            this.$router.push('/homePage');
+
                         }
                     })
                 }
             })
         },
-        //记住用户名和密码
+        //记住用户登录信息
         rememberLoginInfo() {
-            Cookie.set('mobileNo', this.form.mobileNo);
-            Cookie.set('password', this.form.password);
+            Cookie.set('mobileNo', this.form.mobileNo, { expires: 7 });
+            Cookie.set('password', this.form.password, { expires: 7 });
+            Cookie.set('rememberMe', this.rememberMe, { expires: 7 });
+        },
+        //删除用户登录信息
+        removeLoginInfo() {
+            Cookie.remove('mobileNo');
+            Cookie.remove('password');
+            Cookie.remove('rememberMe');
         },
         keyRules(e) {
             if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.'){
