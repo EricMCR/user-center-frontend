@@ -10,6 +10,10 @@ const store = new Vuex.Store({
         username: localStorage.getItem('username') ? localStorage.getItem('username') : ''
     },
     mutations: {
+        updateState (state) {
+            state.Authorization = localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : '';
+            state.username = localStorage.getItem('username') ? localStorage.getItem('username') : '';
+        },
         // 修改token，并将token存入localStorage
         changeLogin (state, user) {
             localStorage.setItem('Authorization', user.Authorization);

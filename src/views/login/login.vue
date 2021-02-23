@@ -66,7 +66,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['changeLogin']),
+        ...mapMutations(['changeLogin', 'updateState']),
         submit(formName){
             this.$refs[formName].validate(valid => {
                 if (valid) {
@@ -87,6 +87,7 @@ export default {
                                 this.removeLoginInfo();
                             }
                             this.changeLogin( {Authorization: res.data.data.token, username: res.data.data.adminVO.name} );
+                            this.updateState();
                             this.$router.push('/homePage');
 
                         }

@@ -8,12 +8,17 @@
             <div class="header-logout">
 
                 <a-dropdown :trigger="['click']" style="cursor: pointer;">
-                    <a-avatar
-                        shape="square"
-                        size="default"
-                        :style="{ backgroundColor: color, verticalAlign: 'middle' }">
-                        {{ username }}
-                    </a-avatar>
+                    <div style="display: flex; align-items: center;">
+                        <h5 class="subtitle is-5">欢迎 {{ username }}</h5>
+                        <a-avatar
+                            shape="square"
+                            size="default"
+                            :style="{ backgroundColor: color, verticalAlign: 'middle' }">
+                            {{ username }}
+                        </a-avatar>
+                        <a-icon style="color: #fff; font-size: 14px; margin-top: 5px;" type="caret-down" />
+                    </div>
+
                     <a-menu slot="overlay">
                         <a-menu-item @click="logout">退出登录</a-menu-item>
                     </a-menu>
@@ -109,7 +114,6 @@ export default {
     },
     created() {
         this.initLogoutBox();
-        console.log(this.username);
     },
     methods: {
         ...mapMutations(['removeLogin']),
@@ -120,6 +124,7 @@ export default {
         },
         logout() {
             this.removeLogin();
+            this.$router.push('/login');
         }
     }
 }
@@ -151,6 +156,11 @@ export default {
     height: 40px;
     display: flex;
     align-items: center;
+}
+.header .header-logout h5 {
+    padding: 0 10px;
+    color: #fff;
+    margin-bottom: 0;
 }
 .tab-container {
     width: 100%;
