@@ -5,6 +5,10 @@ Vue.use(Router)
 
 export const routes = [
     {
+        path: '/',
+        redirect: '/login'
+    },
+    {
         path: '/login',
         name: '登录页',
         component: () => import('@/views/login/login.vue')
@@ -13,6 +17,21 @@ export const routes = [
         path: '/homePage',
         name: '主页',
         component: () => import('@/views/homePage/homePage.vue')
+    },
+    {
+        path: '/testPage1',
+        name: '主页',
+        component: () => import('@/views/testPages/testPage1.vue')
+    },
+    {
+        path: '/testPage2',
+        name: '主页',
+        component: () => import('@/views/testPages/testPage2.vue')
+    },
+    {
+        path: '/testPage3',
+        name: '主页',
+        component: () => import('@/views/testPages/testPage3.vue')
     },
 ]
 

@@ -80,17 +80,13 @@
                     </a-sub-menu>
                 </a-menu>
             </a-layout-sider>
-            <a-layout style="padding: 0 24px 24px">
+            <a-layout style="padding: 10px;">
                 <a-layout-content>
-                    <a-tabs type="card" style="height: 100%;">
-                        <a-tab-pane key="1" tab="Tab 1">
-                            Content of Tab Pane 1
-                        </a-tab-pane>
-                        <a-tab-pane key="2" tab="Tab 2">
-                            Content of Tab Pane 2
-                        </a-tab-pane>
-                        <a-tab-pane key="3" tab="Tab 3">
-                            Content of Tab Pane 3
+                    <a-tabs class="frame-tabs" type="editable-card"
+                            style="height: 100%;" :tabBarStyle="{margin: 0}"
+                            @edit="onEdit">
+                        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.title" :closable="true">
+                            <iframe class="tab-frame" :src="item.src"></iframe>
                         </a-tab-pane>
                     </a-tabs>
                 </a-layout-content>
@@ -109,7 +105,25 @@ export default {
         return {
             username: '',
             color: '#f56a00',
-            colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
+            colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
+
+            tabList: [
+                {
+                    title: '页面一',
+                    key: 1,
+                    src: '/#/testPage1'
+                },
+                {
+                    title: '页面二',
+                    key: 2,
+                    src: '/#/testPage2'
+                },
+                {
+                    title: '页面三',
+                    key: 3,
+                    src: '/#/testPage3'
+                },
+            ]
         }
     },
     created() {
@@ -125,12 +139,20 @@ export default {
         logout() {
             this.removeLogin();
             this.$router.push('/login');
+        },
+        onEdit(targetKey, action) {
+            this[action](targetKey);
+        },
+        remove(targetKey) {
+            this.tabList.splice(this.tabList.findIndex(item => {
+                return item.key === targetKey;
+            }), 1);
         }
     }
 }
 </script>
 
-<style scoped>
+<style>
 .full-height {
     height: 100%;
 }
@@ -162,9 +184,8 @@ export default {
     color: #fff;
     margin-bottom: 0;
 }
-.tab-container {
-    width: 100%;
+.frame-tabs .ant-tabs-top-content, .ant-tabs-tabpane, .tab-frame {
     height: 100%;
-    background-color: aquamarine;
+    width: 100%;
 }
 </style>
