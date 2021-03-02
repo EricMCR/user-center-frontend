@@ -33,60 +33,29 @@
                     :default-open-keys="['sub1']"
                     :style="{ height: '100%', borderRight: 0 }"
                 >
-                    <a-sub-menu key="sub1">
-                        <span slot="title"><a-icon type="user" />subnav 1</span>
-                        <a-menu-item key="1">
-                            option1
+                    <template v-for="item in menuList">
+                        <a-sub-menu v-if="item.type === 1" :key="item.url">
+                            <span slot="title"><a-icon :type="item.icon" />{{item.title}}</span>
+                            <a-menu-item v-for="subItem in item.subMenuList" :key="subItem.url">
+                                <a-icon :type="subItem.icon" />
+                                {{subItem.title}}
+                            </a-menu-item>
+                        </a-sub-menu>
+                        <a-menu-item v-if="item.type === 2" :key="item.url">
+                            <a-icon :type="item.icon" />
+                            {{item.title}}
                         </a-menu-item>
-                        <a-menu-item key="2">
-                            option2
-                        </a-menu-item>
-                        <a-menu-item key="3">
-                            option3
-                        </a-menu-item>
-                        <a-menu-item key="4">
-                            option4
-                        </a-menu-item>
-                    </a-sub-menu>
-                    <a-sub-menu key="sub2">
-                        <span slot="title"><a-icon type="laptop" />subnav 2</span>
-                        <a-menu-item key="5">
-                            option5
-                        </a-menu-item>
-                        <a-menu-item key="6">
-                            option6
-                        </a-menu-item>
-                        <a-menu-item key="7">
-                            option7
-                        </a-menu-item>
-                        <a-menu-item key="8">
-                            option8
-                        </a-menu-item>
-                    </a-sub-menu>
-                    <a-sub-menu key="sub3">
-                        <span slot="title"><a-icon type="notification" />subnav 3</span>
-                        <a-menu-item key="9">
-                            option9
-                        </a-menu-item>
-                        <a-menu-item key="10">
-                            option10
-                        </a-menu-item>
-                        <a-menu-item key="11">
-                            option11
-                        </a-menu-item>
-                        <a-menu-item key="12">
-                            option12
-                        </a-menu-item>
-                    </a-sub-menu>
+                    </template>
+
                 </a-menu>
             </a-layout-sider>
-            <a-layout style="padding: 10px;">
+            <a-layout>
                 <a-layout-content>
                     <a-tabs class="frame-tabs" type="editable-card"
                             style="height: 100%;" :tabBarStyle="{margin: 0}"
                             @edit="onEdit">
                         <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.title" :closable="true">
-                            <iframe class="tab-frame" :src="item.src"></iframe>
+                            <iframe class="tab-frame" :src="item.url"></iframe>
                         </a-tab-pane>
                     </a-tabs>
                 </a-layout-content>
@@ -107,21 +76,53 @@ export default {
             color: '#f56a00',
             colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
 
+            //type:1-文件夹, 2-链接
+            menuList: [
+                {
+                    title: '客户管理',
+                    url: '1',
+                    type: 1,
+                    icon: 'pie-chart',
+                    subMenuList: [
+                        {
+                            title: '客户账号管理',
+                            url: '4',
+                            type: 1,
+                            icon: 'rest'
+                        }
+                    ]
+                },
+                {
+                    title: '权限管理',
+                    url: '2',
+                    type: 2,
+                    icon: 'windows',
+                    subMenuList: []
+                },
+                {
+                    title: '配置管理',
+                    url: '3',
+                    type: 2,
+                    icon: 'mail',
+                    subMenuList: []
+                }
+            ],
+
             tabList: [
                 {
                     title: '页面一',
                     key: 1,
-                    src: '/#/testPage1'
+                    url: '/#/testPage1'
                 },
                 {
                     title: '页面二',
                     key: 2,
-                    src: '/#/testPage2'
+                    url: '/#/testPage2'
                 },
                 {
                     title: '页面三',
                     key: 3,
-                    src: '/#/testPage3'
+                    url: '/#/testPage3'
                 },
             ]
         }
