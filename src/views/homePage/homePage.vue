@@ -29,8 +29,7 @@
             <a-layout-sider width="200" style="background: #fff">
                 <a-menu
                     mode="inline"
-                    :default-selected-keys="['1']"
-                    :default-open-keys="['sub1']"
+                    @select="handleMenuSelect"
                     :style="{ height: '100%', borderRight: 0 }"
                 >
                     <template v-for="item in menuList">
@@ -53,8 +52,10 @@
                 <a-layout-content>
                     <a-tabs class="frame-tabs" type="editable-card"
                             style="height: 100%;" :tabBarStyle="{margin: 0}"
-                            @edit="onEdit">
-                        <a-tab-pane v-for="item in tabList" :key="item.key" :tab="item.title" :closable="true">
+                            @edit="onEdit" :activeKey="currentTabKey"
+                            @change="changeTab" :tabBarGutter = 0
+                            hideAdd>
+                        <a-tab-pane v-for="item in tabList" :key="item.url" :tab="item.title" :closable="true">
                             <iframe class="tab-frame" :src="item.url"></iframe>
                         </a-tab-pane>
                     </a-tabs>
@@ -67,6 +68,7 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import {menuList} from './menuConfig'
 
 export default {
     name: "homePage",
@@ -76,55 +78,12 @@ export default {
             color: '#f56a00',
             colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
 
-            //type:1-文件夹, 2-链接
-            menuList: [
-                {
-                    title: '客户管理',
-                    url: '1',
-                    type: 1,
-                    icon: 'pie-chart',
-                    subMenuList: [
-                        {
-                            title: '客户账号管理',
-                            url: '4',
-                            type: 1,
-                            icon: 'rest'
-                        }
-                    ]
-                },
-                {
-                    title: '权限管理',
-                    url: '2',
-                    type: 2,
-                    icon: 'windows',
-                    subMenuList: []
-                },
-                {
-                    title: '配置管理',
-                    url: '3',
-                    type: 2,
-                    icon: 'mail',
-                    subMenuList: []
-                }
-            ],
+            //侧边菜单列表
+            menuList: menuList,
 
-            tabList: [
-                {
-                    title: '页面一',
-                    key: 1,
-                    url: '/#/testPage1'
-                },
-                {
-                    title: '页面二',
-                    key: 2,
-                    url: '/#/testPage2'
-                },
-                {
-                    title: '页面三',
-                    key: 3,
-                    url: '/#/testPage3'
-                },
-            ]
+            //当前标签页列表
+            tabList: [],
+            currentTabKey: ''
         }
     },
     created() {
@@ -141,13 +100,51 @@ export default {
             this.removeLogin();
             this.$router.push('/login');
         },
+        //处理侧边菜单选中事件
+        handleMenuSelect(params) {
+            let data = this.getTabData(params.key);
+            this.addTab(data);
+        },
+        //根据url在菜单列表中查找页面数据
+        getTabData(url) {
+            for (let item of this.menuList) {
+                if (item.type === 1 && item.subMenuList) {
+                    for (let subItem of item.subMenuList) {
+                        if (subItem.url === url) {
+                            return subItem;
+                        }
+                    }
+                }else if (item.type === 2 && item.url === url) {
+                    return item;
+                }
+            }
+        },
+        //添加tab页
+        addTab(data) {
+            if (this.tabList.every(item => { return item.url !== data.url; })) {
+                this.tabList.push({
+                    title: data.title,
+                    url: data.url
+                })
+            }
+            this.currentTabKey = data.url;
+        },
         onEdit(targetKey, action) {
             this[action](targetKey);
         },
         remove(targetKey) {
             this.tabList.splice(this.tabList.findIndex(item => {
-                return item.key === targetKey;
+                return item.url === targetKey;
             }), 1);
+            if (this.tabList.length) {
+                this.currentTabKey = this.tabList[this.tabList.length - 1].url;
+            }else {
+                this.currentTabKey = '';
+            }
+
+        },
+        changeTab(activeKey) {
+            this.currentTabKey = activeKey;
         }
     }
 }
