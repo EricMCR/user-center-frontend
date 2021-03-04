@@ -6,6 +6,7 @@ import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 import 'bulma/css/bulma.min.css'
 import request from './utils/request'
+import '@/components'
 
 Vue.config.productionTip = false
 

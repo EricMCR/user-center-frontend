@@ -3,7 +3,7 @@
 export const menuList = [
     {
         title: '管理员管理',
-        url: '/#/testPage2',
+        url: '/#/testPage4',
         type: 2,
         icon: 'windows',
         subMenuList: []
