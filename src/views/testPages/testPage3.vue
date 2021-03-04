@@ -6,8 +6,15 @@
 </template>
 
 <script>
+import {pageConfig} from "./testPage3Config";
+
 export default {
-name: "testPage1"
+    name: "testPage3",
+    data() {
+        return {
+            config: pageConfig
+        }
+    }
 }
 </script>
 

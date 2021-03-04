@@ -15,7 +15,8 @@
             </a-table-column>
         </a-table>
         <div class="pagination-container">
-            <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :default-current="currentPage" :total="totalCount" :page-size="pageSize"/>
+            <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :default-current="currentPage" :total="totalCount" :page-size="pageSize"
+                          @showSizeChange="handleSizeChange" @change="handleCurrentChange"/>
         </div>
 
     </div>
@@ -84,8 +85,12 @@ export default {
         }
     },
     methods: {
-        handleChangePage() {
-
+        handleCurrentChange(page, pageSize) {
+            console.log("Current page change！")
+        },
+        handleSizeChange(current, size) {
+            console.log("Page size change！")
+            this.pageSize = size;
         }
     }
 }
