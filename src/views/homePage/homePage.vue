@@ -56,7 +56,7 @@
                             @change="changeTab" :tabBarGutter = 0
                             hideAdd>
                         <a-tab-pane v-for="item in tabList" :key="item.url" :tab="item.title" :closable="true">
-                            <iframe class="tab-frame" :src="item.url"></iframe>
+                            <iframe class="tab-frame" :src="item.url" :style="{height:(curHeight - 110)+'px'}"></iframe>
                         </a-tab-pane>
                     </a-tabs>
                 </a-layout-content>
@@ -83,7 +83,9 @@ export default {
 
             //当前标签页列表
             tabList: [],
-            currentTabKey: ''
+            currentTabKey: '',
+
+            curHeight: document.body.clientHeight
         }
     },
     created() {
@@ -185,5 +187,11 @@ export default {
 .frame-tabs .ant-tabs-top-content, .ant-tabs-tabpane, .tab-frame {
     height: 100%;
     width: 100%;
+
+}
+.frame-tabs .tab-frame {
+    width: calc(100% - 20px);
+    margin: 10px;
+    border-radius: 15px;
 }
 </style>
