@@ -1,7 +1,7 @@
 <template>
     <div :class="className">
         <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
-            <a-table-column v-for="item in columns" :key="item.key" :title="item.title" :data-index="item.key">
+            <a-table-column v-for="item in columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
                 <template slot-scope="value">
                     <span v-if="!item.type || item.type === ''">{{value}}</span>
                     <template v-else-if="item.type === 'tag'">
@@ -12,6 +12,15 @@
                     </template>
 
                 </template>
+            </a-table-column>
+
+            <a-table-column class="handle-container" v-if="handle" :title="handle.title" :width="handle.width" key="handle">
+                <template slot-scope="scope">
+                    <a-button v-for="btn in handle.btns" class="handle-btn" :size="handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
+                        {{btn.label}}
+                    </a-button>
+                </template>
+
             </a-table-column>
         </a-table>
         <div class="pagination-container">
@@ -34,47 +43,17 @@ export default {
         // 表格字段配置
         columns: {
             type: Array,
-            default: () => [
-                {
-                    key: 'name',
-                    title: '姓名',
-                    type: ''
-                },
-                {
-                    key: 'age',
-                    title: '年龄',
-                    type: ''
-                },
-                {
-                    key: 'sex',
-                    title: '性别',
-                    type: 'tag'
-                }
-            ]
+            default: () => []
+        },
+        //操作栏配置
+        handle: {
+            type: Object,
+            default: () => {}
         },
         // 列表数据
         data: {
             type: Array,
-            default: () => [
-                {
-                    id: '2313',
-                    name: '马超然',
-                    age: 22,
-                    sex: 1
-                },
-                {
-                    id: '2323',
-                    name: '马超然',
-                    age: 22,
-                    sex: 2
-                },
-                {
-                    id: '1253',
-                    name: '马超然',
-                    age: 22,
-                    sex: [1,4,5]
-                }
-            ]
+            default: () => []
         }
     },
     data() {
@@ -103,6 +82,10 @@ export default {
 }
 .table table {
     border-bottom: 1px solid #e8e8e8!important;
+}
+.handle-btn {
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 .pagination-container {
     display: flex;
