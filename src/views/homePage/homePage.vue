@@ -31,6 +31,7 @@
                     mode="inline"
                     @select="handleMenuSelect"
                     :style="{ height: '100%', borderRight: 0 }"
+                    :selectedKeys="selectedMenuKeys"
                 >
                     <template v-for="item in menuList">
                         <a-sub-menu v-if="item.type === 1" :key="item.url">
@@ -55,7 +56,7 @@
                             @edit="onEdit" :activeKey="currentTabKey"
                             @change="changeTab" :tabBarGutter = 0
                             hideAdd :animated="false">
-                        <a-tab-pane v-for="item in tabList" :key="item.url" :tab="item.title" :closable="true">
+                        <a-tab-pane v-for="item in tabList" :key="item.url" :tab="item.title" :closable="true" :forceRender="false">
                             <iframe class="tab-frame" :src="item.url" :style="{height:(curHeight - 105)+'px'}"></iframe>
                         </a-tab-pane>
                     </a-tabs>
@@ -80,6 +81,7 @@ export default {
 
             //侧边菜单列表
             menuList: menuList,
+            selectedMenuKeys: [''],
 
             //当前标签页列表
             tabList: [],
@@ -105,6 +107,7 @@ export default {
         //处理侧边菜单选中事件
         handleMenuSelect(params) {
             let data = this.getTabData(params.key);
+            this.selectedMenuKeys[0] = params.key;
             this.addTab(data);
         },
         //根据url在菜单列表中查找页面数据
@@ -140,8 +143,12 @@ export default {
             }), 1);
             if (this.tabList.length) {
                 this.currentTabKey = this.tabList[this.tabList.length - 1].url;
+                this.selectedMenuKeys[0] = this.tabList[this.tabList.length - 1].url;
             }else {
                 this.currentTabKey = '';
+            }
+            if (this.selectedMenuKeys.length && this.selectedMenuKeys[0] === targetKey) {
+                this.selectedMenuKeys.splice(0, 1);
             }
 
         },

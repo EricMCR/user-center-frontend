@@ -63,7 +63,7 @@ export default {
             console.log("Page size change！")
             this.pageSize = size;
         },
-        initData(url, method, params) {
+        async initData(url, method, params) {
             this.$request({
                 url: url,
                 method: method,
