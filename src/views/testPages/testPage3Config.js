@@ -38,7 +38,16 @@ const handle = {
     ]
 }
 
-export{
+const requestOptions = {
+    url: '',
+    method: 'POST',
+    params: {
+
+    }
+}
+
+export const pageConfig = {
     columns,
-    handle
+    handle,
+    //requestOptions
 }

@@ -79,7 +79,7 @@ export default {
                         }
                     }).then(res => {
                         if (res.data.status != "200") {
-                            this.$message.error(res.data.desc);
+                            this.$message.warning(res.data.desc);
                         }else {
                             if (this.rememberMe) {
                                 this.rememberLoginInfo();

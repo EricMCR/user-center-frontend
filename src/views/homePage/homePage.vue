@@ -54,9 +54,9 @@
                             style="height: 100%;" :tabBarStyle="{margin: 0}"
                             @edit="onEdit" :activeKey="currentTabKey"
                             @change="changeTab" :tabBarGutter = 0
-                            hideAdd>
+                            hideAdd :animated="false">
                         <a-tab-pane v-for="item in tabList" :key="item.url" :tab="item.title" :closable="true">
-                            <iframe class="tab-frame" :src="item.url" :style="{height:(curHeight - 110)+'px'}"></iframe>
+                            <iframe class="tab-frame" :src="item.url" :style="{height:(curHeight - 105)+'px'}"></iframe>
                         </a-tab-pane>
                     </a-tabs>
                 </a-layout-content>
@@ -190,8 +190,8 @@ export default {
 
 }
 .frame-tabs .tab-frame {
-    width: calc(100% - 20px);
-    margin: 10px;
+    width: calc(100% - 14px);
+    margin: 7px;
     border-radius: 15px;
 }
 </style>

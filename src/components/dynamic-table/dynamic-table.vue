@@ -1,7 +1,7 @@
 <template>
-    <div :class="className">
+    <div :class="pageConfig.className">
         <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
-            <a-table-column v-for="item in columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
+            <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
                 <template slot-scope="value">
                     <span v-if="!item.type || item.type === ''">{{value}}</span>
                     <template v-else-if="item.type === 'tag'">
@@ -14,9 +14,9 @@
                 </template>
             </a-table-column>
 
-            <a-table-column class="handle-container" v-if="handle" :title="handle.title" :width="handle.width" key="handle">
+            <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle">
                 <template slot-scope="scope">
-                    <a-button v-for="btn in handle.btns" class="handle-btn" :size="handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
+                    <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
                         {{btn.label}}
                     </a-button>
                 </template>
@@ -35,29 +35,40 @@
 export default {
     name: "dynamic-table",
     props: {
-        // 自定义类名
-        className: {
-            type: String,
-            default: ''
-        },
-        // 表格字段配置
-        columns: {
-            type: Array,
-            default: () => []
-        },
-        //操作栏配置
-        handle: {
+        //表格配置（className：自定义类名，columns：表格列配置，handle：操作栏配置）
+        pageConfig: {
             type: Object,
             default: () => {}
-        },
-        // 列表数据
-        data: {
-            type: Array,
-            default: () => []
+        }
+    },
+    created() {
+        if (this.pageConfig.requestOptions) {
+            const {url, method, params} = this.pageConfig.requestOptions;
+            this.initData(url, method, params);
         }
     },
     data() {
         return {
+            data: [
+                {
+                    id: '2313',
+                    name: '马超然',
+                    age: 22,
+                    sex: 1
+                },
+                {
+                    id: '2323',
+                    name: '王建',
+                    age: 22,
+                    sex: 2
+                },
+                {
+                    id: '1253',
+                    name: '老板',
+                    age: 22,
+                    sex: [1,4,5]
+                }
+            ],
             currentPage: 1,
             totalCount: 3,
             pageSize: 10
@@ -70,6 +81,17 @@ export default {
         handleSizeChange(current, size) {
             console.log("Page size change！")
             this.pageSize = size;
+        },
+        initData(url, method, params) {
+            this.$request({
+                url: url,
+                method: method,
+                data: params
+            }).then(res => {
+                if (res.status == '200') {
+                    this.data = res.data;
+                }
+            })
         }
     }
 }
