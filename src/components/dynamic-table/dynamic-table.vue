@@ -49,26 +49,7 @@ export default {
     },
     data() {
         return {
-            data: [
-                {
-                    id: '2313',
-                    name: '马超然',
-                    age: 22,
-                    sex: 1
-                },
-                {
-                    id: '2323',
-                    name: '王建',
-                    age: 22,
-                    sex: 2
-                },
-                {
-                    id: '1253',
-                    name: '老板',
-                    age: 22,
-                    sex: [1,4,5]
-                }
-            ],
+            data: [],
             currentPage: 1,
             totalCount: 3,
             pageSize: 10
@@ -89,7 +70,7 @@ export default {
                 data: params
             }).then(res => {
                 if (res.status == '200') {
-                    this.data = res.data;
+                    this.data = res.data.data.list;
                 }
             })
         }

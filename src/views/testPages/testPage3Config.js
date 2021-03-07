@@ -15,6 +15,16 @@ const columns = [
     {
         key: 'sex',
         title: '性别',
+        type: 'tag',
+        width: 130
+    },
+    {
+        key: 'phone',
+        title: '手机号'
+    },
+    {
+        key: 'authName',
+        title: '身份',
         type: 'tag'
     }
 ]
@@ -39,7 +49,7 @@ const handle = {
 }
 
 const requestOptions = {
-    url: '',
+    url: '/admin/getall',
     method: 'POST',
     params: {
 
@@ -48,6 +58,6 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
-    handle,
-    //requestOptions
+    //handle,
+    requestOptions
 }
