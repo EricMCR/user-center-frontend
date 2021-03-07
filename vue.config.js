@@ -4,7 +4,7 @@ module.exports = {
         proxy: {
             '/api': {
                 //target要改为服务所在的服务器IP
-                target: 'http://127.0.0.1:8082',
+                target: 'http://127.0.0.1:9999',
                 // 允许跨域
                 changeOrigin: true,
                 ws: true,
