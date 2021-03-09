@@ -1,32 +1,36 @@
 <template>
     <div :class="pageConfig.className">
-        <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
-            <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
-                <template slot-scope="value">
-                    <span v-if="!item.type || item.type === ''">{{value}}</span>
-                    <template v-else-if="item.type === 'tag'">
-                        <template v-if="Array.isArray(value)">
-                            <a-tag v-for="tag in value" :key="tag" :color="item.color ? item.color : 'blue'">{{tag}}</a-tag>
+        <a-spin :spinning="loading">
+            <a-icon class="refresh-button" @click="refresh" type="reload" />
+            <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
+            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
+                <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
+                    <template slot-scope="value">
+                        <span v-if="!item.type || item.type === ''">{{value}}</span>
+                        <template v-else-if="item.type === 'tag'">
+                            <template v-if="Array.isArray(value)">
+                                <a-tag v-for="tag in value" :key="tag" :color="item.color ? item.color : 'blue'">{{tag}}</a-tag>
+                            </template>
+                            <a-tag v-else :color="item.color ? item.color : 'blue'">{{value}}</a-tag>
                         </template>
-                        <a-tag v-else :color="item.color ? item.color : 'blue'">{{value}}</a-tag>
+
+                    </template>
+                </a-table-column>
+
+                <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle">
+                    <template slot-scope="scope">
+                        <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
+                            {{btn.label}}
+                        </a-button>
                     </template>
 
-                </template>
-            </a-table-column>
-
-            <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle">
-                <template slot-scope="scope">
-                    <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
-                        {{btn.label}}
-                    </a-button>
-                </template>
-
-            </a-table-column>
-        </a-table>
-        <div class="pagination-container">
-            <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :default-current="currentPage" :total="totalCount" :page-size="pageSize"
-                          @showSizeChange="handleSizeChange" @change="handleCurrentChange"/>
-        </div>
+                </a-table-column>
+            </a-table>
+            <div class="pagination-container">
+                <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :default-current="currentPage" :total="totalCount" :page-size="pageSize"
+                              @showSizeChange="handleSizeChange" @change="handleCurrentChange"/>
+            </div>
+        </a-spin>
 
     </div>
 </template>
@@ -52,7 +56,9 @@ export default {
             data: [],
             currentPage: 1,
             totalCount: 3,
-            pageSize: 10
+            pageSize: 10,
+
+            loading: true
         }
     },
     methods: {
@@ -63,7 +69,12 @@ export default {
             console.log("Page size change！")
             this.pageSize = size;
         },
+        refresh() {
+            const {url, method, params} = this.pageConfig.requestOptions;
+            this.initData(url, method, params);
+        },
         async initData(url, method, params) {
+            this.loading = true;
             this.$request({
                 url: url,
                 method: method,
@@ -71,6 +82,7 @@ export default {
             }).then(res => {
                 if (res.status == '200') {
                     this.data = res.data.data.list;
+                    this.loading = false;
                 }
             })
         }
@@ -80,17 +92,28 @@ export default {
 
 <style>
 .table {
-    padding: 10px;
+    padding: 15px 10px 10px 10px;
     margin-bottom: 0!important;
 }
 .table table {
     border-bottom: 1px solid #e8e8e8!important;
+}
+.refresh-button {
+    position: fixed;
+    right: 2px;
+    top: 2px;
+    font-size: 18px;
+    color: dimgray;
+    z-index: 2;
 }
 .handle-btn {
     margin-right: 5px;
     margin-bottom: 5px;
 }
 .pagination-container {
+    width: 100%;
+    position: fixed;
+    bottom: 5px;
     display: flex;
     justify-content: center;
 }

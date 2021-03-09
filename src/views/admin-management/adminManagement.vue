@@ -1,13 +1,14 @@
 <template>
-    <h3 class="subtitle is-3">第三个页面</h3>
-
+    <div>
+        <dynamic-table :pageConfig="config"></dynamic-table>
+    </div>
 </template>
 
 <script>
-import {pageConfig} from "./testPage3Config";
+import {pageConfig} from "./adminManagementConfig";
 
 export default {
-    name: "testPage3",
+    name: "adminManagement",
     data() {
         return {
             config: pageConfig

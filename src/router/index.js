@@ -19,6 +19,11 @@ export const routes = [
         component: () => import('@/views/homePage/homePage.vue')
     },
     {
+        path: '/adminManagement',
+        name: '管理员管理',
+        component: () => import('@/views/admin-management/adminManagement.vue')
+    },
+    {
         path: '/testPage1',
         name: '主页',
         component: () => import('@/views/testPages/testPage1.vue')

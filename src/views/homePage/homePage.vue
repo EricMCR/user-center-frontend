@@ -154,6 +154,7 @@ export default {
         },
         changeTab(activeKey) {
             this.currentTabKey = activeKey;
+            this.selectedMenuKeys[0] = activeKey;
         }
     }
 }
