@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from '@/router'
 import store from '@/store'
 import Antd from 'ant-design-vue'
+import {Modal} from "ant-design-vue";
 import 'ant-design-vue/dist/antd.css'
 import 'bulma/css/bulma.min.css'
 import request from './utils/request'
@@ -14,6 +15,7 @@ Vue.use(Antd);
 
 Vue.prototype.$request = request;
 Vue.prototype.$store = store;
+Vue.prototype.$modal = Modal;
 
 new Vue({
   store,

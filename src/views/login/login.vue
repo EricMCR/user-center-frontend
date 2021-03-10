@@ -23,7 +23,7 @@
                     <a-form-model-item>
                         <a-checkbox v-model="rememberMe">记住我</a-checkbox>
                         <a href="" style="float: right;">忘记密码</a>
-                        <a-button type="primary" style="width: 100%; margin-top: 15px;" @click="submit('form')">登录</a-button>
+                        <a-button type="primary" :loading="loading" style="width: 100%; margin-top: 15px;" @click="submit('form')">登录</a-button>
                     </a-form-model-item>
                 </a-form-model>
 
@@ -54,7 +54,8 @@ export default {
                     { required: true, message: '请输入密码', trigger: 'change' }
                 ],
             },
-            rememberMe: false
+            rememberMe: false,
+            loading: false
         }
     },
     created() {
@@ -70,6 +71,7 @@ export default {
         submit(formName){
             this.$refs[formName].validate(valid => {
                 if (valid) {
+                    this.loading = true;
                     this.$request({
                         url: '/admin/login',
                         method: 'POST',
@@ -78,6 +80,7 @@ export default {
                             password: this.form.password
                         }
                     }).then(res => {
+                        this.loading = false;
                         if (res.data.status != "200") {
                             this.$message.warning(res.data.desc);
                         }else {

@@ -42,7 +42,8 @@ const handle = {
         {
             label: '删除',
             type: 'danger',
-            event: 'delete'
+            event: 'delete',
+            icon: 'delete'
         }
     ]
 }

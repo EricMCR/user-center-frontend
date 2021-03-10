@@ -1,6 +1,9 @@
 <template>
     <div :class="pageConfig.className">
         <a-spin :spinning="loading">
+            <div class="table-top">
+                <slot name="table-top"></slot>
+            </div>
             <a-icon class="refresh-button" @click="refresh" type="reload" />
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
             <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
@@ -19,7 +22,7 @@
 
                 <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle">
                     <template slot-scope="scope">
-                        <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope.row, scope.$index)">
+                        <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
                             {{btn.label}}
                         </a-button>
                     </template>
@@ -69,6 +72,9 @@ export default {
             console.log("Page size change！")
             this.pageSize = size;
         },
+        handleClick(event, row) {
+            this.$emit('handleClick', event, row);
+        },
         refresh() {
             const {url, method, params} = this.pageConfig.requestOptions;
             this.initData(url, method, params);
@@ -91,8 +97,11 @@ export default {
 </script>
 
 <style>
+.table-top {
+    padding: 5px 10px;
+}
 .table {
-    padding: 15px 10px 10px 10px;
+    padding: 5px 10px;
     margin-bottom: 0!important;
 }
 .table table {
