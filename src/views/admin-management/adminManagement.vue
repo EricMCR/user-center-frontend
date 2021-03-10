@@ -6,8 +6,9 @@
             </div>
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered :title="(isEdit ? '编辑' : '新增') + '管理员'"
-        @cancel="handleClose" @ok="submitForm('form')">
-            <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left">
+                 @cancel="handleClose" @ok="submitForm('form')" :width="450">
+            <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left"
+                          :label-col="labelCol" :wrapper-col="wrapperCol">
                 <a-form-model-item label="姓名" prop="name">
                     <a-input v-model="form.name" placeholder="请输入"></a-input>
                 </a-form-model-item>
@@ -27,6 +28,9 @@
                     <a-select v-model="form.auth" placeholder="请选择">
                         <a-select-option v-for="item in authList" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
                     </a-select>
+                </a-form-model-item>
+                <a-form-model-item v-if="!isEdit" label="设置密码" prop="password">
+                    <a-input-password v-model="form.password" placeholder="请输入"> </a-input-password>
                 </a-form-model-item>
             </a-form-model>
         </a-modal>
@@ -70,21 +74,28 @@ export default {
                 auth: [
                     { required: true, message: '请选择权限', trigger: 'change' }
                 ],
+                password: [
+                    { required: true, message: '请设置密码', trigger: 'change' },
+                    {min: 6, message: '密码最少6位', trigger: 'change' }
+                ],
             },
 
             visible: false,
+            labelCol: { span: 5 },
+            wrapperCol: { span: 18 },
+            layout: 'horizontal',
 
             authList: [
                 {
-                    label: '普通管理员',
+                    label: '普通员工',
                     value: 0
                 },
                 {
-                    label: '总经理',
+                    label: '组长',
                     value: 1
                 },
                 {
-                    label: '老板',
+                    label: '总监',
                     value: 2
                 }
             ]
@@ -97,8 +108,9 @@ export default {
                     if (!this.isEdit) {
                         delete this.form.id;
                         delete this.form.authName;
+                    }else {
+                        delete this.form.password;
                     }
-                    delete this.form.password;
                     this.$request({
                         url: '/admin/' + (this.isEdit ? 'update' : 'add'),
                         method: 'POST',

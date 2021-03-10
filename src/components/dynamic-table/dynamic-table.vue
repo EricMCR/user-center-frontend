@@ -88,6 +88,7 @@ export default {
             }).then(res => {
                 if (res.status == '200') {
                     this.data = res.data.data.list;
+                    this.totalCount = this.data.length;
                     this.loading = false;
                 }
             })
@@ -103,6 +104,8 @@ export default {
 .table {
     padding: 5px 10px;
     margin-bottom: 0!important;
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
 }
 .table table {
     border-bottom: 1px solid #e8e8e8!important;
