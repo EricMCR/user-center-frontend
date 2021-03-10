@@ -144,7 +144,7 @@ export default {
                         onOk: () => {
                             this.$request({
                                 url: '/admin/delete',
-                                method: 'POST',
+                                method: 'DELETE',
                                 data: {
                                     id: row.id
                                 }
