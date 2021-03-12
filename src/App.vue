@@ -1,6 +1,6 @@
 <template>
     <a-config-provider :locale="zh_CN">
-        <div id="app">
+        <div id="app" @click="handleOperation">
             <router-view></router-view>
         </div>
     </a-config-provider>
@@ -10,20 +10,52 @@
 import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
+import {mapMutations} from "vuex";
 
 moment.locale('zh-cn');
 export default {
     name: 'App',
     data() {
         return {
-            zh_CN
+            zh_CN,
+
+            timeRange: 20 * 60 * 1000,  //超时时长（毫秒）
         }
     },
     components: {
 
     },
     created() {
-
+        localStorage.setItem('lastClickTime', new Date().getTime().toString());
+    },
+    methods: {
+        ...mapMutations(['removeLogin']),
+        handleOperation() {
+            let currentClickTime = new Date().getTime();
+            if (currentClickTime - parseInt(localStorage.getItem('lastClickTime')) > this.timeRange) {
+                let token = localStorage.getItem('Authorization');
+                if (token !== null && token !== '') {
+                    this.removeLogin();
+                    this.$modal.warning({
+                        title: '登陆超时，请重新登录',
+                        okText: '确 定',
+                        centered: true,
+                        maskClosable: false,
+                        onOk: () => {
+                            if (window === window.parent) {
+                                location.reload();
+                            }else {
+                                parent.location.reload();
+                            }
+                        }
+                    })
+                }else {
+                    localStorage.setItem('lastClickTime', new Date().getTime().toString());
+                }
+            }else {
+                localStorage.setItem('lastClickTime', new Date().getTime().toString());
+            }
+        }
     }
 }
 </script>

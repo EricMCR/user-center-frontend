@@ -86,10 +86,22 @@ export default {
                 method: method,
                 data: params
             }).then(res => {
-                if (res.status == '200') {
+                if (res.data.status == '200') {
                     this.data = res.data.data.list;
                     this.totalCount = this.data.length;
                     this.loading = false;
+                }else if (res.data.status == '403') {
+                    localStorage.removeItem('Authorization');
+                    localStorage.removeItem('username');
+                    this.$modal.warning({
+                        title: '登陆超时，请重新登录',
+                        okText: '确 定',
+                        centered: true,
+                        maskClosable: false,
+                        onOk: () => {
+                            parent.location.reload();
+                        }
+                    })
                 }
             })
         }
