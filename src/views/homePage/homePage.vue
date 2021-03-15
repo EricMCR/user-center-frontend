@@ -14,7 +14,7 @@
                             shape="square"
                             size="default"
                             :style="{ backgroundColor: color, verticalAlign: 'middle' }">
-                            {{ username }}
+                            {{ username[0] }}
                         </a-avatar>
                         <a-icon style="color: #fff; font-size: 14px; margin-top: 5px;" type="caret-down" />
                     </div>
