@@ -52,7 +52,7 @@
             <a-layout>
                 <a-layout-content>
                     <a-tabs class="frame-tabs" type="editable-card"
-                            style="height: 100%;" :tabBarStyle="{margin: 0}"
+                            style="height: 100%; padding-left: 1px;" :tabBarStyle="{margin: 0}"
                             @edit="onEdit" :activeKey="currentTabKey"
                             @change="changeTab" :tabBarGutter = 0
                             hideAdd :animated="false">
