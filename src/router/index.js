@@ -25,23 +25,23 @@ export const routes = [
     },
     {
         path: '/clientManagement',
-        name: '管理员管理',
+        name: '客户管理',
         component: () => import('@/views/client-management/clientManagement.vue')
     },
     {
-        path: '/testPage1',
-        name: '主页',
-        component: () => import('@/views/testPages/testPage1.vue')
+        path: '/orderManagement',
+        name: '订单管理',
+        component: () => import('@/views/order-management/orderManagement.vue')
     },
     {
-        path: '/testPage2',
-        name: '主页',
-        component: () => import('@/views/testPages/testPage2.vue')
+        path: '/addressManagement',
+        name: '地址管理',
+        component: () => import('@/views/address-management/addressManagement.vue')
     },
     {
-        path: '/testPage3',
-        name: '主页',
-        component: () => import('@/views/testPages/testPage3.vue')
+        path: '/driverManagement',
+        name: '代驾管理',
+        component: () => import('@/views/driver-management/driverManagement.vue')
     },
 ]
 

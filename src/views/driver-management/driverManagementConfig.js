@@ -6,8 +6,8 @@ const columns = [
         width: 120
     },
     {
-        key: 'nickName',
-        title: '昵称',
+        key: 'age',
+        title: '年龄',
         type: '',
         width: 80
     },
@@ -18,25 +18,13 @@ const columns = [
         width: 80
     },
     {
-        key: 'mobileNo',
+        key: 'phone',
         title: '手机号',
         width: 150
     },
     {
-        key: 'address',
-        title: '地址',
-        type: 'tag',
-        width: 170
-    },
-    {
-        key: 'idCard',
-        title: '身份证号',
-        type: 'tag',
-        width: 170
-    },
-    {
-        key: 'status',
-        title: '状态',
+        key: 'authName',
+        title: '身份',
         type: 'tag',
         width: 170
     }

@@ -15,19 +15,19 @@ export const menuList = [
     },
     {
         title: '地址管理',
-        url: '',
+        url: '/#/addressManagement',
         type: 2,
         icon: 'environment'
     },
     {
         title: '订单管理',
-        url: '',
+        url: '/#/orderManagement',
         type: 2,
         icon: 'money-collect'
     },
     {
         title: '代驾管理',
-        url: '',
+        url: '/#/driverManagement',
         type: 2,
         icon: 'car'
     }

@@ -51,7 +51,8 @@
             </a-layout-sider>
             <a-layout>
                 <a-layout-content>
-                    <a-tabs class="frame-tabs" type="editable-card"
+                    <a-tabs v-show="tabList.length"
+                            class="frame-tabs" type="editable-card"
                             style="height: 100%; padding-left: 1px;" :tabBarStyle="{margin: 0}"
                             @edit="onEdit" :activeKey="currentTabKey"
                             @change="changeTab" :tabBarGutter = 0
@@ -60,6 +61,8 @@
                             <iframe class="tab-frame" :src="item.url" :style="{height:(curHeight - 105)+'px'}"></iframe>
                         </a-tab-pane>
                     </a-tabs>
+
+                    <charts-page></charts-page>
                 </a-layout-content>
 
             </a-layout>
