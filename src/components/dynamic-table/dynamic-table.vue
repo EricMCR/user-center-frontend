@@ -1,10 +1,11 @@
 <template>
     <div :class="pageConfig.className">
+        <a-icon class="refresh-button" @click="refresh" type="reload" />
         <a-spin :spinning="loading">
             <div class="table-top">
                 <slot name="table-top"></slot>
             </div>
-            <a-icon class="refresh-button" @click="refresh" type="reload" />
+
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
             <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
                 <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
@@ -87,6 +88,14 @@ export default {
                 data: params
             }).then(res => {
                 if (res.data.status == '200') {
+                    res.data.data.list.forEach(item => {
+                        for (let data in item) {
+                            if (!item[data] || item[data] === 'null') {
+                                item[data] = '';
+                            }
+                        }
+                        return item;
+                    })
                     this.data = res.data.data.list;
                     this.totalCount = this.data.length;
                     this.loading = false;

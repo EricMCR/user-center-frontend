@@ -2,42 +2,32 @@ const columns = [
     {
         key: 'name',
         title: '姓名',
-        type: '',
         width: 120
     },
     {
-        key: 'nickName',
+        key: 'nickname',
         title: '昵称',
-        type: '',
-        width: 80
+        width: 140
     },
     {
         key: 'sex',
         title: '性别',
         type: 'tag',
-        width: 80
+        width: 70
     },
     {
         key: 'mobileNo',
         title: '手机号',
-        width: 150
-    },
-    {
-        key: 'address',
-        title: '地址',
-        type: 'tag',
-        width: 170
+        width: 140
     },
     {
         key: 'idCard',
         title: '身份证号',
-        type: 'tag',
-        width: 170
+        width: 180
     },
     {
-        key: 'status',
+        key: 'state',
         title: '状态',
-        type: 'tag',
         width: 170
     }
 ]
@@ -54,7 +44,7 @@ const handle = {
             icon: 'edit'
         },
         {
-            label: '修改密码',
+            label: '常用地址',
             type: 'primary',
             event: 'editPwd',
             icon: 'lock'
@@ -69,7 +59,7 @@ const handle = {
 }
 
 const requestOptions = {
-    url: '/admin/getall',
+    url: '/user/selectPage',
     method: 'POST',
     params: {
 
