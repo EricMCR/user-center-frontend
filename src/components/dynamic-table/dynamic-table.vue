@@ -1,13 +1,30 @@
 <template>
-    <div :class="pageConfig.className">
+    <div :class="pageConfig.className + ' dynamic-table'" ref="dyTable">
         <a-icon class="refresh-button" @click="refresh" type="reload" />
         <a-spin :spinning="loading">
             <div class="table-top">
                 <slot name="table-top"></slot>
             </div>
 
+            <div ref="query" v-if="pageConfig.query && pageConfig.query.queryList.length" class="query-box">
+                <a-form layout="inline" labelAlign="left">
+
+                    <a-form-item v-for="item in pageConfig.query.queryList" :label="item.label" :key="item.key">
+                        <a-input v-if="item.type === 'text'" v-model="queryParams[item.key]" placeholder="请输入" />
+                        <a-input v-else-if="item.type === 'number'" v-model="queryParams[item.key]" placeholder="请输入"
+                        type="number" @keydown.native="keyRules"/>
+                    </a-form-item>
+
+                    <a-form-item class="query-button-container">
+                        <a-button @click="resetQuery">重置</a-button>
+                        <a-button type="primary" @click="queryPage">查询</a-button>
+                        <slot name="query-button"></slot>
+                    </a-form-item>
+                </a-form>
+            </div>
+
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
-            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false">
+            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: 1000, y:tableHeight}">
                 <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
                     <template slot-scope="value">
                         <span v-if="!item.type || item.type === ''">{{value}}</span>
@@ -43,26 +60,34 @@
 export default {
     name: "dynamic-table",
     props: {
-        //表格配置（className：自定义类名，columns：表格列配置，handle：操作栏配置）
+        //表格配置（className：自定义类名，columns：表格列配置，query：查询项配置，handle：操作栏配置）
         pageConfig: {
             type: Object,
             default: () => {}
         }
     },
     created() {
+        console.log(this);
         if (this.pageConfig.requestOptions) {
             const {url, method, params} = this.pageConfig.requestOptions;
             this.initData(url, method, params);
         }
     },
+    mounted() {
+        console.log()
+        this.tableHeight = this.$refs.dyTable.clientHeight - this.$refs.query.clientHeight - 110;
+    },
     data() {
         return {
             data: [],
+            queryParams: {},
             currentPage: 1,
             totalCount: 3,
             pageSize: 10,
 
-            loading: true
+            loading: true,
+
+            tableHeight: ''
         }
     },
     methods: {
@@ -113,23 +138,51 @@ export default {
                     })
                 }
             })
+        },
+        //查询
+        queryPage() {
+            let queryParams = this.queryParams;
+            for (let item in queryParams) {
+                if (queryParams[item] === '') {
+                    delete queryParams[item];
+                }
+            }
+            const {url, method, params} = this.pageConfig.requestOptions;
+            Object.assign(queryParams, params);
+            this.initData(url, method, queryParams);
+        },
+        //重置查询条件
+        resetQuery() {
+            this.queryParams = {};
+            this.refresh();
+        },
+        keyRules(e) {
+            if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.'){
+                e.returnValue = false;
+            }
         }
     }
 }
 </script>
 
 <style>
+.dynamic-table {
+    height: 100vh;
+}
 .table-top {
     padding: 5px 10px;
 }
 .table {
     padding: 5px 10px;
     margin-bottom: 0!important;
-    max-height: calc(100vh - 90px);
-    overflow-y: auto;
+    /*max-height: calc(100vh - 90px);*/
+    /*overflow-y: auto;*/
 }
 .table table {
     border-bottom: 1px solid #e8e8e8!important;
+}
+.table .ant-table-body {
+    overflow: auto;
 }
 .refresh-button {
     position: fixed;
@@ -149,5 +202,20 @@ export default {
     bottom: 5px;
     display: flex;
     justify-content: center;
+}
+.query-box {
+    padding: 0px 10px;
+    width: 100%;
+}
+.query-button-container button {
+    margin-right: 7px;
+}
+
+.dynamic-table .query-box input::-webkit-outer-spin-button,
+.dynamic-table .query-box input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+.dynamic-table .query-box input[type="number"] {
+    -moz-appearance: textfield;
 }
 </style>

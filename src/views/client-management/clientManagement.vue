@@ -1,9 +1,9 @@
 <template>
     <div>
         <dynamic-table ref="table" :pageConfig="config" @handleClick="handleClick">
-            <div slot="table-top">
-                <a-button type="primary" icon="plus" @click="handleAdd">新增</a-button>
-            </div>
+
+            <a-button slot="query-button" type="primary" icon="plus" @click="handleAdd">新增</a-button>
+
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered
                  :title="editType === 1 ? '新增管理员' : editType === 2 ? '编辑管理员' : '修改密码'"

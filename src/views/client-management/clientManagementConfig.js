@@ -32,6 +32,21 @@ const columns = [
     }
 ]
 
+const query = {
+    queryList: [
+        {
+            key: 'name',
+            label: '姓名',
+            type: 'text'
+        },
+        {
+            key: 'mobile_no',
+            label: '手机号',
+            type: 'number'
+        }
+    ]
+}
+
 const handle = {
     title: '操作',
 
@@ -68,6 +83,7 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
+    query,
     handle,
     requestOptions
 }
