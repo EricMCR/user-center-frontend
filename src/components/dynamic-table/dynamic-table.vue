@@ -109,10 +109,15 @@ export default {
         },
         async initData(url, method, params) {
             this.loading = true;
+            let entireParams = {
+                page: this.currentPage,
+                pageSize: this.pageSize
+            }
+            Object.assign(entireParams, params);
             this.$request({
                 url: url,
                 method: method,
-                data: params
+                data: entireParams
             }).then(res => {
                 if (res.data.status == '200') {
                     res.data.data.list.forEach(item => {
