@@ -23,16 +23,54 @@ const columns = [
         width: 150
     },
     {
+        key: 'idCard',
+        title: '身份证号',
+        width: 150
+    },
+    {
         key: 'authName',
-        title: '身份',
+        title: '职务',
         type: 'tag',
         width: 170
     }
 ]
 
+const query = {
+    queryList: [
+        {
+            key: 'name',
+            label: '姓名',
+            type: 'text'
+        },
+        {
+            key: 'phone',
+            label: '手机号',
+            type: 'number'
+        },
+        {
+            key: 'auth',
+            label: '职务',
+            type: 'select',
+            options: [
+                {
+                    label: '普通员工',
+                    value: 0
+                },
+                {
+                    label: '组长',
+                    value: 1
+                },
+                {
+                    label: '总监',
+                    value: 2
+                }
+            ]
+        }
+    ]
+}
+
 const handle = {
     title: '操作',
-
     size: 'small',
     btns: [
         {
@@ -66,6 +104,7 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
+    query,
     handle,
     requestOptions
 }

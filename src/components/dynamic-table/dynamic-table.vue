@@ -13,6 +13,10 @@
                         <a-input v-if="item.type === 'text'" v-model="queryParams[item.key]" placeholder="请输入" />
                         <a-input v-else-if="item.type === 'number'" v-model="queryParams[item.key]" placeholder="请输入"
                         type="number" @keydown.native="keyRules"/>
+                        <a-select v-else-if="item.type === 'select'" v-model="queryParams[item.key]" placeholder="请选择"
+                                  style="width: 174px;">
+                            <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">{{option.label}}</a-select-option>
+                        </a-select>
                     </a-form-item>
 
                     <a-form-item class="query-button-container">
@@ -67,15 +71,13 @@ export default {
         }
     },
     created() {
-        console.log(this);
         if (this.pageConfig.requestOptions) {
             const {url, method, params} = this.pageConfig.requestOptions;
             this.initData(url, method, params);
         }
     },
     mounted() {
-        console.log()
-        this.tableHeight = this.$refs.dyTable.clientHeight - this.$refs.query.clientHeight - 110;
+        this.tableHeight = this.$refs.dyTable.clientHeight - (this.$refs.query ? this.$refs.query.clientHeight : 0) - 110;
     },
     data() {
         return {
@@ -182,7 +184,10 @@ export default {
     border-bottom: 1px solid #e8e8e8!important;
 }
 .table .ant-table-body {
-    overflow: auto;
+    overflow: auto!important;
+}
+.table .ant-table-placeholder {
+    height: calc(100vh - 170px);
 }
 .refresh-button {
     position: fixed;
@@ -202,6 +207,7 @@ export default {
     bottom: 5px;
     display: flex;
     justify-content: center;
+    z-index: 1;
 }
 .query-box {
     padding: 0px 10px;

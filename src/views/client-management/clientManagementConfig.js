@@ -40,9 +40,29 @@ const query = {
             type: 'text'
         },
         {
+            key: 'nickname',
+            label: '昵称',
+            type: 'text'
+        },
+        {
             key: 'mobile_no',
             label: '手机号',
             type: 'number'
+        },
+        {
+            key: 'state',
+            label: '状态',
+            type: 'select',
+            options: [
+                {
+                    label: '未下单客户',
+                    value: 0
+                },
+                {
+                    label: '已下单客户',
+                    value: 1
+                }
+            ]
         }
     ]
 }

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <p>图表页</p>
+
 </div>
 </template>
 

@@ -31,7 +31,7 @@
                     mode="inline"
                     @select="handleMenuSelect"
                     :style="{ height: '100%', borderRight: 0 }"
-                    :selectedKeys="selectedMenuKeys"
+                    :selectedKeys="selectedMenuKeys" theme="dark"
                 >
                     <template v-for="item in menuList">
                         <a-sub-menu v-if="item.type === 1" :key="item.url">
@@ -41,7 +41,7 @@
                                 {{subItem.title}}
                             </a-menu-item>
                         </a-sub-menu>
-                        <a-menu-item v-if="item.type === 2" :key="item.url">
+                        <a-menu-item v-if="item.type === 2" :key="item.url" :disabled="item.disabled">
                             <a-icon :type="item.icon" />
                             {{item.title}}
                         </a-menu-item>

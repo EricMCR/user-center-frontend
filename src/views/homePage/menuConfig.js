@@ -17,18 +17,21 @@ export const menuList = [
         title: '地址管理',
         url: '/#/addressManagement',
         type: 2,
-        icon: 'environment'
+        icon: 'environment',
+        disabled: true
     },
     {
         title: '订单管理',
         url: '/#/orderManagement',
         type: 2,
-        icon: 'money-collect'
+        icon: 'money-collect',
+        disabled: true
     },
     {
         title: '代驾管理',
         url: '/#/driverManagement',
         type: 2,
-        icon: 'car'
+        icon: 'car',
+        disabled: true
     }
 ]
