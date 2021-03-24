@@ -52,7 +52,7 @@
                 </a-table-column>
             </a-table>
             <div class="pagination-container">
-                <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :default-current="currentPage" :total="totalCount" :page-size="pageSize"
+                <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :current="currentPage" :total="totalCount" :page-size="pageSize"
                               @showSizeChange="handleSizeChange" @change="handleCurrentChange"/>
             </div>
         </a-spin>
@@ -166,6 +166,7 @@ export default {
         resetQuery() {
             this.queryData = {};
             this.queryParams = {};
+            this.currentPage = 1;
             this.refresh();
         },
         keyRules(e) {
