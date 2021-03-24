@@ -10,11 +10,11 @@
                 <a-form layout="inline" labelAlign="left">
 
                     <a-form-item v-for="item in pageConfig.query.queryList" :label="item.label" :key="item.key">
-                        <a-input v-if="item.type === 'text'" v-model="queryParams[item.key]" placeholder="请输入" />
-                        <a-input v-else-if="item.type === 'number'" v-model="queryParams[item.key]" placeholder="请输入"
-                        type="number" @keydown.native="keyRules"/>
-                        <a-select v-else-if="item.type === 'select'" v-model="queryParams[item.key]" placeholder="请选择"
-                                  style="width: 174px;">
+                        <a-input v-if="item.type === 'text'" v-model="queryData[item.key]" placeholder="请输入" allowClear/>
+                        <a-input v-else-if="item.type === 'number'" v-model="queryData[item.key]" placeholder="请输入"
+                        type="number" @keydown.native="keyRules" allowClear/>
+                        <a-select v-else-if="item.type === 'select'" v-model="queryData[item.key]" placeholder="请选择"
+                                  style="width: 174px;" allowClear>
                             <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">{{option.label}}</a-select-option>
                         </a-select>
                     </a-form-item>
@@ -82,9 +82,10 @@ export default {
     data() {
         return {
             data: [],
-            queryParams: {},
+            queryData: {}, //查询输入框绑定值
+            queryParams: {}, //当前查询条件
             currentPage: 1,
-            totalCount: 3,
+            totalCount: 0,
             pageSize: 10,
 
             loading: true,
@@ -94,26 +95,30 @@ export default {
     },
     methods: {
         handleCurrentChange(page, pageSize) {
-            console.log("Current page change！")
+            this.currentPage = page;
+            this.pageSize = pageSize;
+            this.initData();
         },
-        handleSizeChange(current, size) {
-            console.log("Page size change！")
-            this.pageSize = size;
+        handleSizeChange(page, pageSize) {
+            this.currentPage = page;
+            this.pageSize = pageSize;
+            this.initData();
         },
         handleClick(event, row) {
             this.$emit('handleClick', event, row);
         },
         refresh() {
-            const {url, method, params} = this.pageConfig.requestOptions;
-            this.initData(url, method, params);
+            this.initData();
         },
-        async initData(url, method, params) {
+        async initData() {
             this.loading = true;
+            const {url, method, params} = this.pageConfig.requestOptions;
             let entireParams = {
                 page: this.currentPage,
                 pageSize: this.pageSize
             }
             Object.assign(entireParams, params);
+            Object.assign(entireParams, this.queryParams);
             this.$request({
                 url: url,
                 method: method,
@@ -129,7 +134,7 @@ export default {
                         return item;
                     })
                     this.data = res.data.data.list;
-                    this.totalCount = this.data.length;
+                    this.totalCount = res.data.data.totalCount;
                     this.loading = false;
                 }else if (res.data.status == '403') {
                     localStorage.removeItem('Authorization');
@@ -148,18 +153,18 @@ export default {
         },
         //查询
         queryPage() {
-            let queryParams = this.queryParams;
+            let queryParams = this.queryData;
             for (let item in queryParams) {
                 if (queryParams[item] === '') {
                     delete queryParams[item];
                 }
             }
-            const {url, method, params} = this.pageConfig.requestOptions;
-            Object.assign(queryParams, params);
-            this.initData(url, method, queryParams);
+            this.queryParams = queryParams;
+            this.initData();
         },
         //重置查询条件
         resetQuery() {
+            this.queryData = {};
             this.queryParams = {};
             this.refresh();
         },
