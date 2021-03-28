@@ -6,41 +6,33 @@
 
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered
-                 :title="editType === 1 ? '新增管理员' : editType === 2 ? '编辑管理员' : '修改密码'"
+                 :title="editType === 1 ? '新增客户' : editType === 2 ? '编辑客户' : '修改密码'"
                  @cancel="handleClose" @ok="submitForm('form')" :width="450">
             <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left"
                           :label-col="labelCol" :wrapper-col="wrapperCol">
-                <template v-if="editType === 1 || editType === 2">
-                    <a-form-model-item label="姓名" prop="name">
-                        <a-input v-model="form.name" placeholder="请输入"></a-input>
-                    </a-form-model-item>
-                    <a-form-model-item label="性别" prop="sex">
-                        <a-select v-model="form.sex" placeholder="请选择">
-                            <a-select-option key="男" value="男">男</a-select-option>
-                            <a-select-option key="女" value="女">女</a-select-option>
-                        </a-select>
-                    </a-form-model-item>
-                    <a-form-model-item label="年龄" prop="age">
-                        <a-input v-model="form.age" placeholder="请输入" type="number" @keydown.native="keyRules"></a-input>
-                    </a-form-model-item>
-                    <a-form-model-item label="手机号" prop="phone">
-                        <a-input v-model="form.phone" placeholder="请输入" type="number" @keydown.native="keyRules"> </a-input>
-                    </a-form-model-item>
-                    <a-form-model-item label="权限" prop="auth">
-                        <a-select v-model="form.auth" placeholder="请选择">
-                            <a-select-option v-for="item in authList" :key="item.value" :value="item.value">{{item.label}}</a-select-option>
-                        </a-select>
-                    </a-form-model-item>
-                </template>
-
-                <a-form-model-item v-if="editType === 3" label="原密码" prop="oldPassword">
-                    <a-input-password v-model="form.oldPassword" placeholder="请输入"> </a-input-password>
+                <a-form-model-item label="姓名" prop="name">
+                    <a-input v-model="form.name" placeholder="请输入"></a-input>
                 </a-form-model-item>
-                <a-form-model-item v-if="editType === 1 || editType === 3" label="设置新密码" prop="password">
-                    <a-input-password v-model="form.password" placeholder="请输入"> </a-input-password>
+                <a-form-model-item label="昵称" prop="nickname">
+                    <a-input v-model="form.nickname" placeholder="请输入"></a-input>
                 </a-form-model-item>
-                <a-form-model-item v-if="editType === 3" label="确认新密码" prop="confirmPassword">
-                    <a-input-password v-model="form.confirmPassword" placeholder="请输入"> </a-input-password>
+                <a-form-model-item label="性别" prop="sex">
+                    <a-select v-model="form.sex" placeholder="请选择">
+                        <a-select-option key="男" value="男">男</a-select-option>
+                        <a-select-option key="女" value="女">女</a-select-option>
+                    </a-select>
+                </a-form-model-item>
+                <a-form-model-item label="手机号" prop="mobileNo">
+                    <a-input v-model="form.mobileNo" placeholder="请输入" type="number" @keydown.native="keyRules"> </a-input>
+                </a-form-model-item>
+                <a-form-model-item label="身份证号" prop="idCard">
+                    <a-input v-model="form.idCard" placeholder="请输入" type="number" @keydown.native="keyRules"> </a-input>
+                </a-form-model-item>
+                <a-form-model-item label="状态" prop="state">
+                    <a-select v-model="form.state" placeholder="请选择">
+                        <a-select-option key="未下单客户" value="未下单客户">未下单客户</a-select-option>
+                        <a-select-option key="已下单客户" value="已下单客户">已下单客户</a-select-option>
+                    </a-select>
                 </a-form-model-item>
             </a-form-model>
         </a-modal>
@@ -68,14 +60,11 @@ export default {
             form: {
                 id: '',
                 name: '',
+                nickname: '',
                 sex: '',
-                age: '',
-                phone: '',
-                auth: '',
-                authName: '',
-                password: '',
-                oldPassword: '',
-                confirmPassword: ''
+                mobileNo: '',
+                idCard: '',
+                state: ''
             },
             rules: {
                 name: [
@@ -84,27 +73,19 @@ export default {
                 sex: [
                     { required: true, message: '请选择性别', trigger: 'change' }
                 ],
-                age: [
-                    { required: true, message: '请输入年龄', trigger: 'change' }
+                nickname: [
+                    { required: true, message: '请输入昵称', trigger: 'change' }
                 ],
-                phone: [
+                mobileNo: [
                     { required: true, message: '请输入手机号', trigger: 'change' },
-                    {max: 11, message: '手机号不正确', trigger: 'change' }
+                    { max: 11, message: '手机号不正确', trigger: 'change' }
                 ],
-                auth: [
-                    { required: true, message: '请选择权限', trigger: 'change' }
+                state: [
+                    { required: true, message: '请选择状态', trigger: 'change' }
                 ],
-                password: [
-                    { required: true, message: '请设置密码', trigger: 'change' },
-                    { min: 6, message: '密码最少6位', trigger: 'change' }
+                idCard: [
+                    { required: true, message: '请输入身份证号', trigger: 'change' }
                 ],
-                oldPassword: [
-                    { required: true, message: '请输入原密码', trigger: 'change' }
-                ],
-                confirmPassword: [
-                    { required: true, message: '请再次输入新密码', trigger: 'change' },
-                    { validator: validatePwd, trigger: 'change'}
-                ]
             },
 
             visible: false,
@@ -192,11 +173,13 @@ export default {
                 case 'edit':
                     this.editType = 2;
                     Object.assign(this.form, row);
+                    this.form.idCard = '';
                     this.visible = true;
                     break;
                 case 'editPwd':
                     this.editType = 3;
                     Object.assign(this.form, row);
+                    this.form.idCard = '';
                     this.visible = true;
                     break;
                 case 'delete':
@@ -228,12 +211,11 @@ export default {
             this.form = {
                 id: '',
                 name: '',
+                nickname: '',
                 sex: '',
-                age: '',
-                phone: '',
-                auth: '',
-                authName: '',
-                password: ''
+                mobileNo: '',
+                idCard: '',
+                state: ''
             }
         },
         keyRules(e) {
