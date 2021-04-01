@@ -1,38 +1,50 @@
 const columns = [
     {
-        key: 'name',
-        title: '姓名',
-        type: '',
+        key: 'nameName',
+        title: '用户名',
         width: 120
     },
     {
-        key: 'age',
-        title: '年龄',
-        type: '',
+        key: 'province',
+        title: '省份',
         width: 80
     },
     {
-        key: 'sex',
-        title: '性别',
-        type: 'tag',
+        key: 'city',
+        title: '城市',
         width: 80
     },
     {
-        key: 'phone',
-        title: '手机号',
+        key: 'country',
+        title: '县/区',
         width: 150
     },
     {
-        key: 'authName',
-        title: '身份',
-        type: 'tag',
+        key: 'street',
+        title: '街道',
+        width: 170
+    },
+    {
+        key: 'detailAddress',
+        title: '详细地址',
+        width: 170
+    },
+    {
+        key: 'createTime',
+        title: '创建时间',
+        width: 170
+    },
+    {
+        key: 'lastUpdateTime',
+        title: '更新时间',
         width: 170
     }
 ]
 
 const handle = {
     title: '操作',
-
+    width: 300,
+    fixed: 'right',
     size: 'small',
     btns: [
         {

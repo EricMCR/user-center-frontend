@@ -17,8 +17,7 @@ export const menuList = [
         title: '地址管理',
         url: '/#/addressManagement',
         type: 2,
-        icon: 'environment',
-        disabled: true
+        icon: 'environment'
     },
     {
         title: '订单管理',

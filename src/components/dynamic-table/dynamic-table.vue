@@ -2,7 +2,7 @@
     <div :class="pageConfig.className + ' dynamic-table'" ref="dyTable">
         <a-icon class="refresh-button" @click="refresh" type="reload" />
         <a-spin :spinning="loading">
-            <div class="table-top">
+            <div ref="top" class="table-top">
                 <slot name="table-top"></slot>
             </div>
 
@@ -28,8 +28,8 @@
             </div>
 
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
-            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: 1000, y:tableHeight}">
-                <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width">
+            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth, y: tableHeight}">
+                <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width" :fixed="item.fixed">
                     <template slot-scope="value">
                         <span v-if="!item.type || item.type === ''">{{value}}</span>
                         <template v-else-if="item.type === 'tag'">
@@ -42,7 +42,7 @@
                     </template>
                 </a-table-column>
 
-                <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle">
+                <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
                     <template slot-scope="scope">
                         <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
                             {{btn.label}}
@@ -77,7 +77,15 @@ export default {
         }
     },
     mounted() {
-        this.tableHeight = this.$refs.dyTable.clientHeight - (this.$refs.query ? this.$refs.query.clientHeight : 0) - 110;
+        this.tableHeight = this.$refs.dyTable.clientHeight - (this.$refs.query ? this.$refs.query.clientHeight : 0) - (this.$refs.top ? this.$refs.top.clientHeight : 0) - 120;
+        this.pageConfig.columns.forEach(item => {
+            if (item.width) {
+                this.tableWidth += item.width;
+            }
+        })
+        if (this.pageConfig.handle && this.pageConfig.handle.width) {
+            this.tableWidth += this.pageConfig.handle.width;
+        }
     },
     data() {
         return {
@@ -90,7 +98,8 @@ export default {
 
             loading: true,
 
-            tableHeight: ''
+            tableWidth: 0,
+            tableHeight: 0
         }
     },
     methods: {
