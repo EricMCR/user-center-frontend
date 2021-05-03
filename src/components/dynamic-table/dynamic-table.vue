@@ -41,7 +41,7 @@
                         </template>
                         <template v-else-if="item.type === 'rate'">
                             <a-rate :default-value="value" disabled />
-                            <span class="ant-rate-text">{{ value }}</span>
+<!--                            <span class="ant-rate-text">{{ value }}</span>-->
                         </template>
 
                     </template>

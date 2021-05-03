@@ -29,7 +29,7 @@ const columns = [
         key: 'starLevel',
         title: '等级',
         type: 'rate',
-        width: 180
+        width: 150
     },
     {
         key: 'stateName',
@@ -68,27 +68,27 @@ const query = {
         },
         {
             key: 'starLevel',
-            label: '评分',
+            label: '等级',
             type: 'select',
             options: [
                 {
-                    label: 1,
+                    label: '一星',
                     value: 1
                 },
                 {
-                    label: 2,
+                    label: '二星',
                     value: 2
                 },
                 {
-                    label: 3,
+                    label: '三星',
                     value: 3
                 },
                 {
-                    label: 4,
+                    label: '四星',
                     value: 4
                 },
                 {
-                    label: 5,
+                    label: '五星',
                     value: 5
                 }
             ]

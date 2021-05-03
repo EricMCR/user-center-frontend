@@ -5,7 +5,7 @@
         </dynamic-table>
 
         <a-modal dialogClass="form-modal" v-model="visible" centered
-                 title="评价列表" @cancel="handleClose" :width="450"
+                 title="评价列表" @cancel="handleClose"
                  :footer="null">
             <a-spin :spinning="loading" style="width: 100%;">
                 <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin />
@@ -36,7 +36,6 @@
                             </template>
                             <template slot="datetime">
                                 <a-rate :default-value="item.score" disabled />
-                                <span>{{item.score}}星</span>
                             </template>
                         </a-comment>
                     </a-list-item>
@@ -106,6 +105,10 @@ export default {
     padding: 5px 23px;
     max-height: calc(100vh - 160px);
     overflow-y: auto;
+}
+
+.form-modal {
+    width: 80%!important;
 }
 
 .form-modal .ant-rate {
