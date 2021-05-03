@@ -25,7 +25,7 @@
                                     shape="circle"
                                     size="default"
                                     :style="{ backgroundColor: colorList[(index+1)%4], verticalAlign: 'middle' }">
-                                    {{ "Eric"[0] }}
+                                    {{ item.nickname[0] }}
                                 </a-avatar>
                             </template>
                             <p slot="content">
