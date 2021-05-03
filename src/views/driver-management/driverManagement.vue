@@ -18,7 +18,7 @@
                     <a-list-item slot="renderItem" slot-scope="item, index">
                         <a-comment>
                             <template slot="author">
-                                <p style="font-size: 16px;">item.nickname</p>
+                                <p style="font-size: 16px;">{{ item.nickname }}</p>
                             </template>
                             <template slot="avatar">
                                 <a-avatar
