@@ -17,6 +17,7 @@
                                   style="width: 174px;" allowClear>
                             <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">{{option.label}}</a-select-option>
                         </a-select>
+                        <a-slider v-else-if="item.type === 'range'" v-model="queryData[item.key]" range :default-value="item.defaultValue" :max="item.max" :min="item.min" style="width: 150px;"/>
                     </a-form-item>
 
                     <a-form-item class="query-button-container">
@@ -37,6 +38,10 @@
                                 <a-tag v-for="tag in value" :key="tag" :color="item.color ? item.color : 'blue'">{{tag}}</a-tag>
                             </template>
                             <a-tag v-else :color="item.color ? item.color : 'blue'">{{value}}</a-tag>
+                        </template>
+                        <template v-else-if="item.type === 'rate'">
+                            <a-rate :default-value="value" disabled />
+                            <span class="ant-rate-text">{{ value }}</span>
                         </template>
 
                     </template>

@@ -69,7 +69,6 @@ const query = {
 
 const handle = {
     title: '操作',
-
     size: 'small',
     btns: [
         {
@@ -77,12 +76,6 @@ const handle = {
             type: 'primary',
             event: 'edit',
             icon: 'edit'
-        },
-        {
-            label: '常用地址',
-            type: 'primary',
-            event: 'editPwd',
-            icon: 'lock'
         },
         {
             label: '删除',

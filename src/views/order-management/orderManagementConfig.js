@@ -1,7 +1,7 @@
 const columns = [
     {
-        key: 'name',
-        title: '姓名',
+        key: 'userName',
+        title: '用户名',
         type: '',
         width: 120
     },
@@ -57,7 +57,7 @@ const handle = {
 }
 
 const requestOptions = {
-    url: '/admin/getall',
+    url: '/userOrder/selectPage',
     method: 'POST',
     params: {
 
@@ -66,6 +66,6 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
-    handle,
+    //handle,
     requestOptions
 }

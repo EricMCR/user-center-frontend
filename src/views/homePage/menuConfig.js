@@ -23,14 +23,12 @@ export const menuList = [
         title: '订单管理',
         url: '/#/orderManagement',
         type: 2,
-        icon: 'money-collect',
-        disabled: true
+        icon: 'money-collect'
     },
     {
         title: '代驾管理',
         url: '/#/driverManagement',
         type: 2,
-        icon: 'car',
-        disabled: true
+        icon: 'car'
     }
 ]

@@ -1,21 +1,21 @@
 const columns = [
     {
-        key: 'nameName',
+        key: 'userName',
         title: '用户名',
         width: 120
     },
     {
         key: 'province',
         title: '省份',
-        width: 80
+        width: 120
     },
     {
         key: 'city',
         title: '城市',
-        width: 80
+        width: 120
     },
     {
-        key: 'country',
+        key: 'county',
         title: '县/区',
         width: 150
     },
@@ -41,35 +41,58 @@ const columns = [
     }
 ]
 
+const query = {
+    queryList: [
+        {
+            key: 'userName',
+            label: '用户名',
+            type: 'text'
+        },
+        {
+            key: 'province',
+            label: '省份',
+            type: 'text'
+        },
+        {
+            key: 'city',
+            label: '城市',
+            type: 'text'
+        },
+        {
+            key: 'county',
+            label: '县/区',
+            type: 'text'
+        },
+        {
+            key: 'street',
+            label: '街道',
+            type: 'text'
+        },
+        {
+            key: 'detailAddress',
+            label: '详细地址',
+            type: 'text'
+        }
+    ]
+}
+
 const handle = {
     title: '操作',
-    width: 300,
+    width: 150,
     fixed: 'right',
     size: 'small',
     btns: [
         {
-            label: '编辑',
+            label: '常用地址',
             type: 'primary',
-            event: 'edit',
-            icon: 'edit'
-        },
-        {
-            label: '修改密码',
-            type: 'primary',
-            event: 'editPwd',
-            icon: 'lock'
-        },
-        {
-            label: '删除',
-            type: 'danger',
-            event: 'delete',
-            icon: 'delete'
+            event: 'addressList',
+            icon: 'container'
         }
     ]
 }
 
 const requestOptions = {
-    url: '/admin/getall',
+    url: '/userAddress/selectPage',
     method: 'POST',
     params: {
 
@@ -78,6 +101,7 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
+    query,
     handle,
     requestOptions
 }
