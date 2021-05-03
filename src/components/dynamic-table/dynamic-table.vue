@@ -214,6 +214,9 @@ export default {
 .table .ant-table-placeholder {
     height: calc(100vh - 170px);
 }
+.table .ant-rate .ant-rate-star {
+    margin-right: 1px;
+}
 .refresh-button {
     position: fixed;
     right: 2px;

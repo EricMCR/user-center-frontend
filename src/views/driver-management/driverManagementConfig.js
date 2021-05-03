@@ -29,7 +29,7 @@ const columns = [
         key: 'starLevel',
         title: '等级',
         type: 'rate',
-        width: 200
+        width: 180
     },
     {
         key: 'stateName',
