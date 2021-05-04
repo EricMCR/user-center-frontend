@@ -87,6 +87,7 @@ export default {
             }).then(res => {
                 if (res.data.status == '200') {
                     this.getAddressData(this.currentUserId);
+                    this.$refs['table'].refresh()
                 }else {
                     this.$message.warning(res.data.desc);
                 }
