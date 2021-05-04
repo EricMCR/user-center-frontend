@@ -123,6 +123,11 @@ export default {
     color: rgba(0, 0, 0, 0.65);
 }
 
+.form-modal .ant-comment-actions {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
 .main-box .login-box input::-webkit-outer-spin-button,
 .main-box .login-box input::-webkit-inner-spin-button {
     -webkit-appearance: none;
