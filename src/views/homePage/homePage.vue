@@ -26,7 +26,7 @@
             </div>
         </a-layout-header>
         <a-layout>
-            <a-layout-sider width="200" style="background: #fff">
+            <a-layout-sider width="200" style="background: #fff" collapsible :collapsedWidth="80">
                 <a-menu
                     mode="inline"
                     @select="handleMenuSelect"
@@ -38,12 +38,12 @@
                             <span slot="title"><a-icon :type="item.icon" />{{item.title}}</span>
                             <a-menu-item v-for="subItem in item.subMenuList" :key="subItem.url">
                                 <a-icon :type="subItem.icon" />
-                                {{subItem.title}}
+                                <span>{{subItem.title}}</span>
                             </a-menu-item>
                         </a-sub-menu>
                         <a-menu-item v-if="item.type === 2" :key="item.url" :disabled="item.disabled">
                             <a-icon :type="item.icon" />
-                            {{item.title}}
+                            <span>{{item.title}}</span>
                         </a-menu-item>
                     </template>
 
