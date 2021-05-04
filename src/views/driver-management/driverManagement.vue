@@ -119,6 +119,10 @@ export default {
     margin: 1px;
 }
 
+.form-modal .ant-comment {
+    width: 100%;
+}
+
 .form-modal .ant-comment-content-author-time {
     color: rgba(0, 0, 0, 0.65);
 }
