@@ -68,7 +68,9 @@ export default {
                 }
             }).then(res => {
                 if (res.data.status == '200') {
-                    this.addressList = res.data.data;
+                    this.addressList = res.data.data.sort((a, b) => {
+                        return a.state - b.state;
+                    });
                     this.loading = false;
                 }else {
                     this.$message.warning(res.data.desc);
