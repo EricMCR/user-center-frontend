@@ -18,14 +18,14 @@
                     <a-list-item slot="renderItem" slot-scope="item, index">
                         <a-comment>
                             <template slot="author">
-                                <p style="font-size: 16px;">{{ item.nickname }}</p>
+                                <p style="font-size: 16px;">{{ item.nickname ? item.nickname : '匿名用户' }}</p>
                             </template>
                             <template slot="avatar">
                                 <a-avatar
                                     shape="circle"
                                     size="default"
                                     :style="{ backgroundColor: colorList[(index+1)%4], verticalAlign: 'middle' }">
-                                    {{ item.nickname[0] }}
+                                    {{ item.nickname ? item.nickname[0] : '用户' }}
                                 </a-avatar>
                             </template>
                             <p slot="content">
@@ -90,6 +90,7 @@ export default {
             }).then(res => {
                 if (res.data.status == '200') {
                     this.commentList = res.data.data.list;
+                    console.log(this.commentList)
                     this.loading = false;
                 }else {
                     this.$message.warning(res.data.desc);
