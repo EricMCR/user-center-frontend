@@ -2,7 +2,7 @@
     <div>
         <dynamic-table ref="table" :pageConfig="config" @handleClick="handleClick">
 
-            <a-button slot="query-button" type="primary" icon="plus" @click="handleAdd">新增</a-button>
+<!--            <a-button slot="query-button" type="primary" icon="plus" @click="handleAdd">新增</a-button>-->
 
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered
@@ -25,15 +25,6 @@
                 <a-form-model-item label="手机号" prop="mobileNo">
                     <a-input v-model="form.mobileNo" placeholder="请输入" type="number" @keydown.native="keyRules"> </a-input>
                 </a-form-model-item>
-                <a-form-model-item label="身份证号" prop="idCard">
-                    <a-input v-model="form.idCard" placeholder="请输入" type="number" @keydown.native="keyRules"> </a-input>
-                </a-form-model-item>
-                <a-form-model-item label="状态" prop="state">
-                    <a-select v-model="form.state" placeholder="请选择">
-                        <a-select-option key="未下单客户" value="未下单客户">未下单客户</a-select-option>
-                        <a-select-option key="已下单客户" value="已下单客户">已下单客户</a-select-option>
-                    </a-select>
-                </a-form-model-item>
             </a-form-model>
         </a-modal>
     </div>
@@ -45,18 +36,11 @@ import {pageConfig} from "./clientManagementConfig";
 export default {
     name: "clientManagement",
     data() {
-        let validatePwd = (rule, value, callback) => {
-            if (value !== this.form.password) {
-                callback(new Error("两次输入不一致"));
-            } else {
-                callback();
-            }
-        };
         return {
             config: pageConfig,
 
             isEdit: false,
-            editType: 1, // 1-新增，2-编辑,3-修改密码
+            editType: 1, // 1-新增，2-编辑,3-修改状态
             form: {
                 id: '',
                 name: '',
@@ -79,13 +63,7 @@ export default {
                 mobileNo: [
                     { required: true, message: '请输入手机号', trigger: 'change' },
                     { max: 11, message: '手机号不正确', trigger: 'change' }
-                ],
-                state: [
-                    { required: true, message: '请选择状态', trigger: 'change' }
-                ],
-                idCard: [
-                    { required: true, message: '请输入身份证号', trigger: 'change' }
-                ],
+                ]
             },
 
             visible: false,
@@ -144,7 +122,7 @@ export default {
                                 oldPassword: this.form.oldPassword,
                                 newPassword: this.form.password
                             }
-                            api = 'updatePwd';
+                            api = 'updateState';
                             break;
                     }
                     this.$request({

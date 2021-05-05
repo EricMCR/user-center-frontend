@@ -49,9 +49,12 @@
 
                 <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
                     <template slot-scope="scope">
-                        <a-button v-for="btn in pageConfig.handle.btns" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
-                            {{btn.label}}
-                        </a-button>
+                        <template v-for="btn in pageConfig.handle.btns">
+                            <a-button v-if="!btn.isHidden || btn.isHidden(scope)" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
+                                {{btn.label}}
+                            </a-button>
+                        </template>
+
                     </template>
 
                 </a-table-column>
@@ -208,7 +211,7 @@ export default {
 .table table {
     border-bottom: 1px solid #e8e8e8!important;
 }
-.table .ant-table-body {
+.table .ant-table-body, .ant-table-body-inner {
     overflow: auto!important;
 }
 .table .ant-table-placeholder {

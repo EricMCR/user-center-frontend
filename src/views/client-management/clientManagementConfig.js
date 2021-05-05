@@ -2,6 +2,7 @@ const columns = [
     {
         key: 'name',
         title: '姓名',
+        fixed: 'left',
         width: 120
     },
     {
@@ -28,6 +29,16 @@ const columns = [
     {
         key: 'state',
         title: '状态',
+        width: 130
+    },
+    {
+        key: 'createTime',
+        title: '创建时间',
+        width: 170
+    },
+    {
+        key: 'lastUpdateTime',
+        title: '更新时间',
         width: 170
     }
 ]
@@ -55,11 +66,11 @@ const query = {
             type: 'select',
             options: [
                 {
-                    label: '未下单客户',
+                    label: '未认证',
                     value: 0
                 },
                 {
-                    label: '已下单客户',
+                    label: '已认证',
                     value: 1
                 }
             ]
@@ -70,6 +81,8 @@ const query = {
 const handle = {
     title: '操作',
     size: 'small',
+    width: 200,
+    fixed: 'right',
     btns: [
         {
             label: '编辑',
