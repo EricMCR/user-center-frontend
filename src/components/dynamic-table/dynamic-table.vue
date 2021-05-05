@@ -31,13 +31,13 @@
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
             <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth, y: tableHeight}">
                 <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width" :fixed="item.fixed">
-                    <template slot-scope="value">
+                    <template slot-scope="value, scope">
                         <span v-if="!item.type || item.type === ''">{{value}}</span>
                         <template v-else-if="item.type === 'tag'">
                             <template v-if="Array.isArray(value)">
-                                <a-tag v-for="tag in value" :key="tag" :color="item.color ? item.color : 'blue'">{{tag}}</a-tag>
+                                <a-tag v-for="tag in value" :key="tag" :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">{{tag}}</a-tag>
                             </template>
-                            <a-tag v-else :color="item.color ? item.color : 'blue'">{{value}}</a-tag>
+                            <a-tag v-else :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">{{value}}</a-tag>
                         </template>
                         <template v-else-if="item.type === 'rate'">
                             <a-rate :default-value="value" disabled />

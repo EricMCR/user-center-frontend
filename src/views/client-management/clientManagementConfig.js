@@ -14,6 +14,10 @@ const columns = [
         key: 'sex',
         title: '性别',
         type: 'tag',
+        color(row) {
+            console.log(row)
+            return row.sex === '男' ? 'blue' : 'red';
+        },
         width: 70
     },
     {
@@ -29,6 +33,10 @@ const columns = [
     {
         key: 'state',
         title: '状态',
+        type: 'tag',
+        color(row) {
+            return row.state === '1' ? 'green' : 'orange';
+        },
         width: 130
     },
     {
@@ -89,6 +97,24 @@ const handle = {
             type: 'primary',
             event: 'edit',
             icon: 'edit'
+        },
+        {
+            label: '启用',
+            type: 'primary',
+            event: 'open',
+            icon: 'check-circle',
+            isHidden(row) {
+                return row.state === 0;
+            }
+        },
+        {
+            label: '禁用',
+            type: 'primary',
+            event: 'close',
+            icon: 'close-circle',
+            isHidden(row) {
+                return row.state === 1;
+            }
         },
         {
             label: '删除',
