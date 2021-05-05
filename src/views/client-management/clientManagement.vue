@@ -6,7 +6,7 @@
 
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered
-                 :title="editType === 1 ? '新增客户' : editType === 2 ? '编辑客户' : '修改密码'"
+                 title="编辑客户"
                  @cancel="handleClose" @ok="submitForm('form')" :width="450">
             <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left"
                           :label-col="labelCol" :wrapper-col="wrapperCol">
@@ -46,9 +46,7 @@ export default {
                 name: '',
                 nickname: '',
                 sex: '',
-                mobileNo: '',
-                idCard: '',
-                state: ''
+                mobileNo: ''
             },
             rules: {
                 name: [
@@ -91,42 +89,16 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    let params = {};
-                    let api = '';
-                    switch (this.editType) {
-                        case 1:
-                            params = {
-                                name: this.form.name,
-                                sex: this.form.sex,
-                                age: this.form.age,
-                                phone: this.form.phone,
-                                auth: this.form.auth,
-                                password: this.form.password
-                            }
-                            api = 'add';
-                            break;
-                        case 2:
-                            params = {
-                                id: this.form.id,
-                                name: this.form.name,
-                                sex: this.form.sex,
-                                age: this.form.age,
-                                phone: this.form.phone,
-                                auth: this.form.auth
-                            }
-                            api = 'update';
-                            break;
-                        case 3:
-                            params = {
-                                id: this.form.id,
-                                oldPassword: this.form.oldPassword,
-                                newPassword: this.form.password
-                            }
-                            api = 'updateState';
-                            break;
-                    }
+                    let params = {
+                        id: this.form.id,
+                        name: this.form.name,
+                        nickname: this.form.nickname,
+                        sex: this.form.sex,
+                        mobileNo: this.form.mobileNo
+                    };
+
                     this.$request({
-                        url: '/admin/' + api,
+                        url: '/user/update',
                         method: 'POST',
                         data: params
                     }).then(res => {
@@ -149,40 +121,45 @@ export default {
         handleClick(event, row) {
             switch(event) {
                 case 'edit':
-                    this.editType = 2;
                     Object.assign(this.form, row);
-                    this.form.idCard = '';
                     this.visible = true;
                     break;
-                case 'editPwd':
-                    this.editType = 3;
-                    Object.assign(this.form, row);
-                    this.form.idCard = '';
-                    this.visible = true;
-                    break;
-                case 'delete':
+                case 'open':
                     this.$modal.confirm({
-                        title: '删除管理员',
-                        content: '确认要删除管理员【'+row.name+'】吗？',
+                        title: '启用客户',
+                        content: '确认要启用客户【'+row.name+'】吗？',
                         onOk: () => {
-                            this.$request({
-                                url: '/admin/delete',
-                                method: 'DELETE',
-                                data: {
-                                    id: row.id
-                                }
-                            }).then(res => {
-                                if (res.data.status == '200') {
-                                    this.$message.success('操作成功');
-                                    this.$refs.table.refresh();
-                                }else {
-                                    this.$message.warning(res.data.msg);
-                                }
-                            })
+                            this.updateState(row.id, 1)
+                        }
+                    })
+                    break;
+                case 'close':
+                    this.$modal.confirm({
+                        title: '禁用客户',
+                        content: '确认要禁用客户【'+row.name+'】吗？',
+                        onOk: () => {
+                            this.updateState(row.id, 0)
                         }
                     })
                     break;
             }
+        },
+        updateState(id, state) {
+            this.$request({
+                url: '/user/updateState',
+                method: 'POST',
+                data: {
+                    id: id,
+                    state: state
+                }
+            }).then(res => {
+                if (res.data.status == '200') {
+                    this.$message.success('操作成功');
+                    this.$refs.table.refresh();
+                }else {
+                    this.$message.warning(res.data.desc);
+                }
+            })
         },
         handleClose() {
             this.$refs['form'].clearValidate();
@@ -191,9 +168,7 @@ export default {
                 name: '',
                 nickname: '',
                 sex: '',
-                mobileNo: '',
-                idCard: '',
-                state: ''
+                mobileNo: ''
             }
         },
         keyRules(e) {

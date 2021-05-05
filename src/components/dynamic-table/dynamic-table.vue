@@ -50,7 +50,7 @@
                 <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
                     <template slot-scope="scope">
                         <template v-for="btn in pageConfig.handle.btns">
-                            <a-button v-if="!btn.isHidden || btn.isHidden(scope)" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
+                            <a-button v-if="!btn.ifRender || btn.ifRender(scope)" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
                                 {{btn.label}}
                             </a-button>
                         </template>

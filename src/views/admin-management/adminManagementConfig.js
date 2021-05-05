@@ -15,6 +15,9 @@ const columns = [
         key: 'sex',
         title: '性别',
         type: 'tag',
+        color(row) {
+            return row.sex === '男' ? 'blue' : 'red';
+        },
         width: 80
     },
     {
@@ -31,6 +34,9 @@ const columns = [
         key: 'authName',
         title: '职务',
         type: 'tag',
+        color(row) {
+            return row.auth === 2 ? 'orange' : row.auth === 1 ? 'blue': 'green';
+        },
         width: 170
     }
 ]

@@ -15,7 +15,6 @@ const columns = [
         title: '性别',
         type: 'tag',
         color(row) {
-            console.log(row)
             return row.sex === '男' ? 'blue' : 'red';
         },
         width: 70
@@ -31,11 +30,11 @@ const columns = [
         width: 180
     },
     {
-        key: 'state',
+        key: 'stateName',
         title: '状态',
         type: 'tag',
         color(row) {
-            return row.state === '1' ? 'green' : 'orange';
+            return row.state ? 'green' : 'orange';
         },
         width: 130
     },
@@ -102,25 +101,19 @@ const handle = {
             label: '启用',
             type: 'primary',
             event: 'open',
-            icon: 'check-circle',
-            isHidden(row) {
-                return row.state === 0;
+            icon: 'check',
+            ifRender(row) {
+                return row.state == 0;
             }
         },
         {
             label: '禁用',
             type: 'primary',
             event: 'close',
-            icon: 'close-circle',
-            isHidden(row) {
-                return row.state === 1;
+            icon: 'close',
+            ifRender(row) {
+                return row.state == 1;
             }
-        },
-        {
-            label: '删除',
-            type: 'danger',
-            event: 'delete',
-            icon: 'delete'
         }
     ]
 }
