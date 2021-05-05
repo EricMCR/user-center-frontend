@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dynamic-table ref="table" :pageConfig="config" @handleClick="handleClick">
+        <dynamic-table ref="table" :pageConfig="config" :formatData="config.formatData" @handleClick="handleClick">
 
         </dynamic-table>
         <a-modal dialogClass="form-modal" v-model="visible" centered

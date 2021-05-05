@@ -6,33 +6,50 @@ const columns = [
         width: 120
     },
     {
-        key: 'age',
-        title: '年龄',
-        type: '',
-        width: 80
+        key: 'fromAddress',
+        title: '始发地',
+        width: 300
     },
     {
-        key: 'sex',
-        title: '性别',
+        key: 'toAddress',
+        title: '目的地',
+        width: 300
+    },
+    {
+        key: 'stateName',
+        title: '用户状态',
         type: 'tag',
-        width: 80
+        color(row) {
+            return row.state ? 'green' : 'orange';
+        },
+        width: 130
     },
     {
-        key: 'phone',
-        title: '手机号',
-        width: 150
+        key: 'createTime',
+        title: '创建时间',
+        width: 170
     },
     {
-        key: 'authName',
-        title: '身份',
-        type: 'tag',
+        key: 'lastUpdateTime',
+        title: '更新时间',
         width: 170
     }
 ]
 
+const formatData = (data) => {
+    return data.map(item => {
+        item.fromAddress = (item.fromProvince ? item.fromProvince+' ' : '') + (item.fromCity ? item.fromCity+' ' : '') +
+            (item.fromCounty ? item.fromCounty+' ' : '') +(item.fromStreet ? item.fromStreet : '');
+        item.toAddress = (item.toProvince ? item.toProvince+' ' : '') + (item.toCity ? item.toCity+' ' : '') +
+            (item.toCounty ? item.toCounty+' ' : '') +(item.toStreet ? item.toStreet : '');
+        return item;
+    });
+}
+
 const handle = {
     title: '操作',
-
+    fixed: 'right',
+    width: 130,
     size: 'small',
     btns: [
         {
@@ -40,18 +57,6 @@ const handle = {
             type: 'primary',
             event: 'edit',
             icon: 'edit'
-        },
-        {
-            label: '修改密码',
-            type: 'primary',
-            event: 'editPwd',
-            icon: 'lock'
-        },
-        {
-            label: '删除',
-            type: 'danger',
-            event: 'delete',
-            icon: 'delete'
         }
     ]
 }
@@ -66,6 +71,7 @@ const requestOptions = {
 
 export const pageConfig = {
     columns,
-    //handle,
+    formatData,
+    handle,
     requestOptions
 }

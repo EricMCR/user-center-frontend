@@ -29,7 +29,7 @@
             </div>
 
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
-            <a-table class="table" :data-source="data" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth, y: tableHeight}">
+            <a-table class="table" :data-source="tableData" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth, y: tableHeight}" :style="'max-width: ' + (tableWidth+21) + 'px;'">
                 <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width" :fixed="item.fixed">
                     <template slot-scope="value, scope">
                         <span v-if="!item.type || item.type === ''">{{value}}</span>
@@ -76,7 +76,12 @@ export default {
         pageConfig: {
             type: Object,
             default: () => {}
-        }
+        },
+        //格式化data
+        formatData: {
+            type: Function,
+            default: v => v
+        },
     },
     created() {
         if (this.pageConfig.requestOptions) {
@@ -108,6 +113,11 @@ export default {
 
             tableWidth: 0,
             tableHeight: 0
+        }
+    },
+    computed: {
+        tableData() {
+            return this.formatData(this.data)
         }
     },
     methods: {
