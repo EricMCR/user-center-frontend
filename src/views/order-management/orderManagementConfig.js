@@ -28,6 +28,12 @@ const columns = [
         width: 300
     },
     {
+        key: 'amount',
+        title: '金额',
+        type: '',
+        width: 100
+    },
+    {
         key: 'stateName',
         title: '用户状态',
         type: 'tag',
