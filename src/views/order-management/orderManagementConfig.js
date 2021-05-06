@@ -1,7 +1,19 @@
 const columns = [
     {
+        key: 'orderNo',
+        title: '订单号',
+        type: '',
+        width: 150
+    },
+    {
         key: 'userName',
         title: '用户名',
+        type: '',
+        width: 120
+    },
+    {
+        key: 'driverName',
+        title: '代驾姓名',
         type: '',
         width: 120
     },

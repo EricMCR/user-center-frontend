@@ -99,6 +99,7 @@ const query = {
 const handle = {
     title: '操作',
     width: 140,
+    fixed: 'right',
     size: 'small',
     btns: [
         {

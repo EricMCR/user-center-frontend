@@ -78,7 +78,7 @@ const query = {
 const handle = {
     title: '操作',
     size: 'small',
-    width: 300,
+    width: 200,
     btns: [
         {
             label: '编辑',
@@ -86,12 +86,12 @@ const handle = {
             event: 'edit',
             icon: 'edit'
         },
-        {
-            label: '修改密码',
-            type: 'primary',
-            event: 'editPwd',
-            icon: 'lock'
-        },
+        // {
+        //     label: '修改密码',
+        //     type: 'primary',
+        //     event: 'editPwd',
+        //     icon: 'lock'
+        // },
         {
             label: '删除',
             type: 'danger',

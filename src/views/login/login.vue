@@ -89,7 +89,11 @@ export default {
                             }else {
                                 this.removeLoginInfo();
                             }
-                            this.changeLogin( {Authorization: res.data.data.token, username: res.data.data.adminVO.name} );
+                            this.changeLogin( {
+                                Authorization: res.data.data.token,
+                                username: res.data.data.adminVO.name,
+                                id: res.data.data.adminVO.id
+                            } );
                             this.updateState();
                             this.$router.push('/homePage');
 

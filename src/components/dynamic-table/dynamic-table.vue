@@ -29,7 +29,7 @@
             </div>
 
             <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
-            <a-table class="table" :data-source="tableData" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth-40, y: tableHeight}" :style="'max-width: ' + (tableWidth+21) + 'px;'">
+            <a-table class="table" :data-source="tableData" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth-60, y: tableHeight}" :style="'max-width: ' + (tableWidth+21) + 'px;'">
                 <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width" :fixed="item.fixed">
                     <template slot-scope="value, scope">
                         <span v-if="!item.type || item.type === ''">{{value}}</span>

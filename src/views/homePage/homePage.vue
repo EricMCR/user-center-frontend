@@ -20,6 +20,7 @@
                     </div>
 
                     <a-menu slot="overlay">
+                        <a-menu-item @click="changePwd">修改密码</a-menu-item>
                         <a-menu-item @click="logout">退出登录</a-menu-item>
                     </a-menu>
                 </a-dropdown>
@@ -67,7 +68,26 @@
 
             </a-layout>
         </a-layout>
+
+        <a-modal dialogClass="form-modal" v-model="visible" centered
+                 title="修改密码"
+                 @cancel="handleClose" @ok="submitForm('form')" :width="450">
+            <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left"
+                          :label-col="labelCol" :wrapper-col="wrapperCol">
+
+                <a-form-model-item label="原密码" prop="oldPassword">
+                    <a-input-password v-model="form.oldPassword" placeholder="请输入"> </a-input-password>
+                </a-form-model-item>
+                <a-form-model-item label="设置新密码" prop="newPassword">
+                    <a-input-password v-model="form.newPassword" placeholder="请输入"> </a-input-password>
+                </a-form-model-item>
+                <a-form-model-item label="确认新密码" prop="confirmPassword">
+                    <a-input-password v-model="form.confirmPassword" placeholder="请输入"> </a-input-password>
+                </a-form-model-item>
+            </a-form-model>
+        </a-modal>
     </a-layout>
+
 </template>
 
 <script>
@@ -77,7 +97,15 @@ import {menuList} from './menuConfig'
 export default {
     name: "homePage",
     data() {
+        let validatePwd = (rule, value, callback) => {
+            if (value !== this.form.newPassword) {
+                callback(new Error("两次输入不一致"));
+            } else {
+                callback();
+            }
+        };
         return {
+            id: '',
             username: '',
             color: '#f56a00',
             colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
@@ -90,7 +118,30 @@ export default {
             tabList: [],
             currentTabKey: '',
 
-            curHeight: document.body.clientHeight
+            curHeight: document.body.clientHeight,
+
+            visible: false,
+            labelCol: { span: 6 },
+            wrapperCol: { span: 17 },
+            layout: 'horizontal',
+            form: {
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: ''
+            },
+            rules: {
+                newPassword: [
+                    { required: true, message: '请设置密码', trigger: 'change' },
+                    { min: 6, message: '密码最少6位', trigger: 'change' }
+                ],
+                oldPassword: [
+                    { required: true, message: '请输入原密码', trigger: 'change' }
+                ],
+                confirmPassword: [
+                    { required: true, message: '请再次输入新密码', trigger: 'change' },
+                    { validator: validatePwd, trigger: 'change'}
+                ]
+            },
         }
     },
     created() {
@@ -99,10 +150,16 @@ export default {
     methods: {
         ...mapMutations(['removeLogin']),
         initLogoutBox() {
+            this.id = this.$store.state.id;
             this.username = this.$store.state.username;
             const index = Math.round(Math.random() * 3);
             this.color = this.colorList[index];
         },
+        //修改密码
+        changePwd() {
+            this.visible = true;
+        },
+        //注销账号
         logout() {
             this.removeLogin();
             this.$router.push('/login');
@@ -158,6 +215,40 @@ export default {
         changeTab(activeKey) {
             this.currentTabKey = activeKey;
             this.selectedMenuKeys[0] = activeKey;
+        },
+        //处理修改密码窗口的关闭事件
+        handleClose() {
+            this.$refs['form'].clearValidate();
+            this.form = {
+                oldPassword: '',
+                newPassword: '',
+                comfirmPassword: ''
+            }
+        },
+        submitForm(formName) {
+            this.$refs[formName].validate(valid => {
+                if (valid) {
+                    let params = {
+                        id: this.id,
+                        oldPassword: this.form.oldPassword,
+                        newPassword: this.form.newPassword
+                    };
+
+                    this.$request({
+                        url: '/admin/updatePwd',
+                        method: 'POST',
+                        data: params
+                    }).then(res => {
+                        if (res.data.status == '200') {
+                            this.$message.success('操作成功');
+                            this.visible = false;
+                            this.handleClose();
+                        }else {
+                            this.$message.warning(res.data.desc);
+                        }
+                    })
+                }
+            })
         }
     }
 }
