@@ -12,6 +12,12 @@ const columns = [
         width: 120
     },
     {
+        key: 'mobileNo',
+        title: '手机号',
+        type: '',
+        width: 120
+    },
+    {
         key: 'driverName',
         title: '代驾姓名',
         type: '',
@@ -35,10 +41,21 @@ const columns = [
     },
     {
         key: 'stateName',
-        title: '用户状态',
+        title: '状态',
         type: 'tag',
         color(row) {
-            return row.state ? 'green' : 'orange';
+            switch(row.state){
+                case 0:
+                    return 'red';
+                case 1:
+                    return 'cyan';
+                case 2:
+                    return 'green';
+                case 3:
+                    return 'orange';
+                case 4:
+                    return 'purple';
+            }
         },
         width: 130
     },
@@ -62,6 +79,64 @@ const formatData = (data) => {
             (item.toCounty ? item.toCounty+' ' : '') +(item.toStreet ? item.toStreet : '');
         return item;
     });
+}
+
+const query = {
+    queryList: [
+        {
+            key: 'orderNo',
+            label: '订单号',
+            type: 'text'
+        },
+        {
+            key: 'userName',
+            label: '用户名',
+            type: 'text'
+        },
+        {
+            key: 'mobileNo',
+            label: '手机号',
+            type: 'text'
+        },
+        {
+            key: 'state',
+            label: '状态',
+            type: 'select',
+            options: [
+                {
+                    label: '待接单',
+                    value: 0
+                },
+                {
+                    label: '已接单',
+                    value: 1
+                },
+                {
+                    label: '已完成',
+                    value: 2
+                },
+                {
+                    label: '已取消',
+                    value: 3
+                },
+                {
+                    label: '待支付',
+                    value: 4
+                }
+            ]
+        },
+        {
+            key: 'minAmount',
+            label: '最小金额',
+            type: 'number'
+        },
+        {
+            key: 'maxAmount',
+            label: '最大金额',
+            type: 'number'
+        },
+
+    ]
 }
 
 const handle = {
@@ -90,6 +165,7 @@ const requestOptions = {
 export const pageConfig = {
     columns,
     formatData,
+    query,
     handle,
     requestOptions
 }
