@@ -7,7 +7,7 @@ const columns = [
     },
     {
         key: 'fromAddress',
-        title: '始发地',
+        title: '出发地',
         width: 300
     },
     {

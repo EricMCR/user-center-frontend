@@ -22,7 +22,7 @@
                     </a-form-model-item>
                     <a-form-model-item>
                         <a-checkbox v-model="rememberMe">记住我</a-checkbox>
-                        <a href="" style="float: right;">忘记密码</a>
+                        <a style="float: right;" @click="forgetPwd">忘记密码</a>
                         <a-button type="primary" :loading="loading" style="width: 100%; margin-top: 15px;" @click="submit('form')">登录</a-button>
                     </a-form-model-item>
                 </a-form-model>
@@ -114,6 +114,9 @@ export default {
             if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.'){
                 e.returnValue = false;
             }
+        },
+        forgetPwd() {
+            this.$message.warning("真笨！自己去数据库查查吧");
         }
     }
 }
