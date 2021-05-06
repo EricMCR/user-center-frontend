@@ -78,6 +78,7 @@ const query = {
 const handle = {
     title: '操作',
     size: 'small',
+    width: 300,
     btns: [
         {
             label: '编辑',
