@@ -92,7 +92,8 @@ export default {
                             this.changeLogin( {
                                 Authorization: res.data.data.token,
                                 username: res.data.data.adminVO.name,
-                                id: res.data.data.adminVO.id
+                                id: res.data.data.adminVO.id,
+                                auth: res.data.data.adminVO.auth
                             } );
                             this.updateState();
                             this.$router.push('/homePage');

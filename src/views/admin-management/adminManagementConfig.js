@@ -78,7 +78,7 @@ const query = {
 const handle = {
     title: '操作',
     size: 'small',
-    width: 200,
+    width: 300,
     btns: [
         {
             label: '编辑',
@@ -97,7 +97,16 @@ const handle = {
             type: 'danger',
             event: 'delete',
             icon: 'delete'
-        }
+        },
+        {
+            label: '重置密码',
+            type: 'danger',
+            event: 'resetPwd',
+            icon: 'key',
+            ifRender(row, state) {
+                return state.auth === "2";
+            }
+        },
     ]
 }
 

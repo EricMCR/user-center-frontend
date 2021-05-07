@@ -219,6 +219,30 @@ export default {
                         }
                     })
                     break;
+                case 'resetPwd':
+                    this.$modal.confirm({
+                        title: '重置密码',
+                        content: '确认要重置管理员【'+row.name+'】的密码吗？',
+                        onOk: () => {
+                            this.$request({
+                                url: '/admin/reset',
+                                method: 'POST',
+                                data: {
+                                    id: row.id
+                                }
+                            }).then(res => {
+                                if (res.data.status == '200') {
+                                    this.$message.success('操作成功');
+                                    this.$refs.table.refresh();
+                                }else {
+                                    this.$message.warning(res.data.msg);
+                                }
+                            }).catch(error => {
+                                this.$message.error("服务器错误，请稍后再试（错误代码:"+error.response.status+"）")
+                            })
+                        }
+                    })
+                    break;
             }
         },
         handleClose() {

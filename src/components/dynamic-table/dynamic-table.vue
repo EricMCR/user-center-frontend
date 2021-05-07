@@ -64,7 +64,7 @@
                                 :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
                     <template slot-scope="scope">
                         <template v-for="btn in pageConfig.handle.btns">
-                            <a-button v-if="!btn.ifRender || btn.ifRender(scope)" class="handle-btn"
+                            <a-button v-if="!btn.ifRender || btn.ifRender(scope, store)" class="handle-btn"
                                       :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon"
                                       @click="handleClick(btn.event, scope)">
                                 {{ btn.label }}
@@ -99,9 +99,10 @@ export default {
         formatData: {
             type: Function,
             default: v => v
-        },
+        }
     },
     created() {
+        this.store = this.$store.state;
         if (this.pageConfig.requestOptions) {
             const {url, method, params} = this.pageConfig.requestOptions;
             this.initData(url, method, params);
@@ -120,6 +121,7 @@ export default {
     },
     data() {
         return {
+            store: {},
             data: [],
             queryData: {}, //查询输入框绑定值
             queryParams: {}, //当前查询条件
