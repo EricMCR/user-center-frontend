@@ -1,6 +1,6 @@
 <template>
     <div :class="pageConfig.className + ' dynamic-table'" ref="dyTable">
-        <a-icon class="refresh-button" @click="refresh" type="reload" />
+        <a-icon class="refresh-button" @click="refresh" type="reload"/>
         <a-spin :spinning="loading">
             <div ref="top" class="table-top">
                 <slot name="table-top"></slot>
@@ -10,14 +10,19 @@
                 <a-form layout="inline" labelAlign="left">
 
                     <a-form-item v-for="item in pageConfig.query.queryList" :label="item.label" :key="item.key">
-                        <a-input v-if="item.type === 'text'" v-model="queryData[item.key]" placeholder="请输入" allowClear/>
+                        <a-input v-if="item.type === 'text'" v-model="queryData[item.key]" placeholder="请输入"
+                                 allowClear/>
                         <a-input v-else-if="item.type === 'number'" v-model="queryData[item.key]" placeholder="请输入"
-                        type="number" @keydown.native="keyRules" allowClear/>
+                                 type="number" @keydown.native="keyRules" allowClear/>
                         <a-select v-else-if="item.type === 'select'" v-model="queryData[item.key]" placeholder="请选择"
                                   style="width: 174px;" allowClear>
-                            <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">{{option.label}}</a-select-option>
+                            <a-select-option v-for="option in item.options" :key="option.value" :value="option.value">
+                                {{ option.label }}
+                            </a-select-option>
                         </a-select>
-                        <a-slider v-else-if="item.type === 'range'" v-model="queryData[item.key]" range :default-value="item.defaultValue" :max="item.max" :min="item.min" style="width: 150px;"/>
+                        <a-slider v-else-if="item.type === 'range'" v-model="queryData[item.key]" range
+                                  :default-value="item.defaultValue" :max="item.max" :min="item.min"
+                                  style="width: 150px;"/>
                     </a-form-item>
 
                     <a-form-item class="query-button-container">
@@ -28,30 +33,41 @@
                 </a-form>
             </div>
 
-            <a-icon slot="indicator" type="loading" style="font-size: 30px" spin />
-            <a-table class="table" :data-source="tableData" :bordered="true" rowKey="id" :pagination="false" :scroll="{x: tableWidth-60, y: tableHeight}" :style="'max-width: ' + (tableWidth+21) + 'px;'">
-                <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title" :data-index="item.key" :width="item.width" :fixed="item.fixed">
+            <a-icon slot="indicator" type="loading" style="font-size: 30px" spin/>
+            <a-table class="table" :data-source="tableData" :bordered="true" rowKey="id" :pagination="false"
+                     :scroll="{x: tableWidth-60, y: tableHeight}" :style="'max-width: ' + (tableWidth+21) + 'px;'">
+                <a-table-column v-for="item in pageConfig.columns" :key="item.key" :title="item.title"
+                                :data-index="item.key" :width="item.width" :fixed="item.fixed">
                     <template slot-scope="value, scope">
-                        <span v-if="!item.type || item.type === ''">{{value}}</span>
+                        <span v-if="!item.type || item.type === ''">{{ value }}</span>
                         <template v-else-if="item.type === 'tag'">
                             <template v-if="Array.isArray(value)">
-                                <a-tag v-for="tag in value" :key="tag" :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">{{tag}}</a-tag>
+                                <a-tag v-for="tag in value" :key="tag"
+                                       :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">
+                                    {{ tag }}
+                                </a-tag>
                             </template>
-                            <a-tag v-else :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">{{value}}</a-tag>
+                            <a-tag v-else
+                                   :color="item.color ? (typeof item.color === 'function'? item.color(scope) : item.color) : 'blue'">
+                                {{ value }}
+                            </a-tag>
                         </template>
                         <template v-else-if="item.type === 'rate'">
-                            <a-rate :default-value="value" disabled />
-<!--                            <span class="ant-rate-text">{{ value }}</span>-->
+                            <a-rate :default-value="value" disabled/>
+                            <!--                            <span class="ant-rate-text">{{ value }}</span>-->
                         </template>
 
                     </template>
                 </a-table-column>
 
-                <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title" :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
+                <a-table-column class="handle-container" v-if="pageConfig.handle" :title="pageConfig.handle.title"
+                                :width="pageConfig.handle.width" key="handle" :fixed="pageConfig.handle.fixed">
                     <template slot-scope="scope">
                         <template v-for="btn in pageConfig.handle.btns">
-                            <a-button v-if="!btn.ifRender || btn.ifRender(scope)" class="handle-btn" :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon" @click="handleClick(btn.event, scope)">
-                                {{btn.label}}
+                            <a-button v-if="!btn.ifRender || btn.ifRender(scope)" class="handle-btn"
+                                      :size="pageConfig.handle.size" :key="btn.event" :type="btn.type" :icon="btn.icon"
+                                      @click="handleClick(btn.event, scope)">
+                                {{ btn.label }}
                             </a-button>
                         </template>
 
@@ -60,7 +76,8 @@
                 </a-table-column>
             </a-table>
             <div class="pagination-container">
-                <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`" :current="currentPage" :total="totalCount" :page-size="pageSize"
+                <a-pagination show-size-changer show-quick-jumper :show-total="total => `共 ${total} 条`"
+                              :current="currentPage" :total="totalCount" :page-size="pageSize"
                               @showSizeChange="handleSizeChange" @change="handleCurrentChange"/>
             </div>
         </a-spin>
@@ -75,7 +92,8 @@ export default {
         //表格配置（className：自定义类名，columns：表格列配置，query：查询项配置，handle：操作栏配置）
         pageConfig: {
             type: Object,
-            default: () => {}
+            default: () => {
+            }
         },
         //格式化data
         formatData: {
@@ -163,7 +181,7 @@ export default {
                     this.data = res.data.data.list;
                     this.totalCount = res.data.data.totalCount;
                     this.loading = false;
-                }else if (res.data.status == '403') {
+                } else if (res.data.status == '403') {
                     localStorage.removeItem('Authorization');
                     localStorage.removeItem('username');
                     this.$modal.warning({
@@ -176,6 +194,10 @@ export default {
                         }
                     })
                 }
+            }).catch(error => {
+                this.$message.error("服务器错误，请稍后再试（错误代码:"+error.response.status+"）")
+                this.loading = false;
+
             })
         },
         //查询
@@ -197,7 +219,7 @@ export default {
             this.refresh();
         },
         keyRules(e) {
-            if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.'){
+            if (e.key == 'e' || e.key == 'E' || e.key == '+' || e.key == '-' || e.key == '.') {
                 e.returnValue = false;
             }
         }
@@ -209,27 +231,34 @@ export default {
 .dynamic-table {
     height: 100vh;
 }
+
 .table-top {
     padding: 5px 10px;
 }
+
 .table {
     padding: 5px 10px;
-    margin-bottom: 0!important;
+    margin-bottom: 0 !important;
     /*max-height: calc(100vh - 90px);*/
     /*overflow-y: auto;*/
 }
+
 .table table {
-    border-bottom: 1px solid #e8e8e8!important;
+    border-bottom: 1px solid #e8e8e8 !important;
 }
+
 .table .ant-table-body, .ant-table-body-inner {
-    overflow: auto!important;
+    overflow: auto !important;
 }
+
 .table .ant-table-placeholder {
     height: calc(100vh - 170px);
 }
+
 .table .ant-rate .ant-rate-star {
     margin-right: 1px;
 }
+
 .refresh-button {
     position: fixed;
     right: 2px;
@@ -238,10 +267,12 @@ export default {
     color: dimgray;
     z-index: 2;
 }
+
 .handle-btn {
     margin-right: 5px;
     margin-bottom: 5px;
 }
+
 .pagination-container {
     width: 100%;
     position: fixed;
@@ -250,10 +281,12 @@ export default {
     justify-content: center;
     z-index: 1;
 }
+
 .query-box {
     padding: 0px 10px;
     width: 100%;
 }
+
 .query-button-container button {
     margin-right: 7px;
 }
@@ -262,6 +295,7 @@ export default {
 .dynamic-table .query-box input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
+
 .dynamic-table .query-box input[type="number"] {
     -moz-appearance: textfield;
 }
