@@ -142,7 +142,7 @@ const query = {
 const handle = {
     title: '操作',
     fixed: 'right',
-    width: 130,
+    width: 220,
     size: 'small',
     btns: [
         {
@@ -150,6 +150,12 @@ const handle = {
             type: 'primary',
             event: 'edit',
             icon: 'edit'
+        },
+        {
+            label: '查看评价',
+            type: 'primary',
+            event: 'comment',
+            icon: 'file-search'
         }
     ]
 }
