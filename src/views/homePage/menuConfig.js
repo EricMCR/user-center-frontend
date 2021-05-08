@@ -21,8 +21,21 @@ export const menuList = [
     },
     {
         title: '代驾管理',
-        url: '/#/driverManagement',
-        type: 2,
+        type: 1,
+        subMenuList: [
+            {
+                title: '代驾信息',
+                url: '/#/driverManagement',
+                type: 2,
+                icon: 'user'
+            },
+            {
+                title: '代驾审核',
+                url: '/#/adminManagement',
+                type: 2,
+                icon: 'audit'
+            }
+        ],
         icon: 'car'
     },
     {

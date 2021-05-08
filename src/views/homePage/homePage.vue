@@ -234,10 +234,14 @@ export default {
                         newPassword: this.form.newPassword
                     };
 
+                    console.log()
                     this.$request({
                         url: '/admin/updatePwd',
                         method: 'POST',
-                        data: params
+                        data: params,
+                        headers: {
+                            token: this.$store.state.Authorization
+                        }
                     }).then(res => {
                         if (res.data.status == '200') {
                             this.$message.success('操作成功');
