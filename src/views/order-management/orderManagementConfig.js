@@ -160,7 +160,7 @@ const handle = {
             event: 'comment',
             icon: 'file-search',
             ifRender(row){
-                return row === 2;
+                return row == 2;
             }
         }
     ]
