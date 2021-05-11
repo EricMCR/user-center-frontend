@@ -149,7 +149,10 @@ const handle = {
             label: '编辑',
             type: 'primary',
             event: 'edit',
-            icon: 'edit'
+            icon: 'edit',
+            ifRender(row) {
+                return row.state != 2;
+            }
         },
         {
             label: '查看评价',
