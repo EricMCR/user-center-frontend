@@ -48,10 +48,10 @@
 </template>
 
 <script>
-import {pageConfig} from "./driverManagementConfig";
+import {pageConfig} from "./driverAuditConfig";
 
 export default {
-    name: "clientManagement",
+    name: "clientAudit",
     data() {
         return {
             config: pageConfig,
@@ -75,24 +75,6 @@ export default {
                     this.visible = true;
                     this.getCommentData(row.id)
                     break;
-                case 'open':
-                    this.$modal.confirm({
-                        title: '启用代驾',
-                        content: '确认要启用代驾【'+row.name+'】吗？',
-                        onOk: () => {
-                            this.updateState(row.id, 0)
-                        }
-                    })
-                    break;
-                case 'close':
-                    this.$modal.confirm({
-                        title: '禁用代驾',
-                        content: '确认要禁用代驾【'+row.name+'】吗？',
-                        onOk: () => {
-                            this.updateState(row.id, 1)
-                        }
-                    })
-                    break;
             }
         },
         handleClose() {
@@ -114,24 +96,7 @@ export default {
                     this.$message.warning(res.data.desc);
                 }
             })
-        },
-        updateState(id, state) {
-            this.$request({
-                url: '/driver/updateState',
-                method: 'POST',
-                data: {
-                    id: id,
-                    state: state
-                }
-            }).then(res => {
-                if (res.data.status == '200') {
-                    this.$message.success('操作成功');
-                    this.$refs.table.refresh();
-                }else {
-                    this.$message.warning(res.data.desc);
-                }
-            })
-        },
+        }
     }
 }
 </script>

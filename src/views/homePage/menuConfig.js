@@ -31,7 +31,7 @@ export const menuList = [
             },
             {
                 title: '代驾审核',
-                url: '/#/adminManagement',
+                url: '/#/driverAudit',
                 type: 2,
                 icon: 'audit'
             }

@@ -155,7 +155,10 @@ const handle = {
             label: '查看评价',
             type: 'primary',
             event: 'comment',
-            icon: 'file-search'
+            icon: 'file-search',
+            ifRender(row){
+                return row === 2;
+            }
         }
     ]
 }

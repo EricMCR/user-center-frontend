@@ -40,8 +40,13 @@ export const routes = [
     },
     {
         path: '/driverManagement',
-        name: '代驾管理',
+        name: '代驾信息',
         component: () => import('@/views/driver-management/driverManagement.vue')
+    },
+    {
+        path: '/driverAudit',
+        name: '代驾审核',
+        component: () => import('@/views/driver-audit/driverAudit.vue')
     },
 ]
 
