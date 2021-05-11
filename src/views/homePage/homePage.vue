@@ -36,7 +36,10 @@
                 >
                     <template v-for="item in menuList">
                         <a-sub-menu v-if="item.type === 1" :key="item.url">
-                            <span slot="title"><a-icon :type="item.icon" />{{item.title}}</span>
+                            <span slot="title">
+                                <a-icon :type="item.icon" />
+                                <span>{{item.title}}</span>
+                            </span>
                             <a-menu-item v-for="subItem in item.subMenuList" :key="subItem.url">
                                 <a-icon :type="subItem.icon" />
                                 <span>{{subItem.title}}</span>
