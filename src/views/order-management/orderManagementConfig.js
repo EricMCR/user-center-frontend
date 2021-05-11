@@ -146,7 +146,7 @@ const handle = {
     size: 'small',
     btns: [
         {
-            label: '编辑',
+            label: '修改信息',
             type: 'primary',
             event: 'edit',
             icon: 'edit',
@@ -160,7 +160,7 @@ const handle = {
             event: 'comment',
             icon: 'file-search',
             ifRender(row){
-                return row == 2;
+                return row.state === 2;
             }
         }
     ]
