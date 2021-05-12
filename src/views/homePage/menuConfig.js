@@ -2,6 +2,12 @@
 //type:1-文件夹, 2-链接
 export const menuList = [
     {
+        title: '首页',
+        url: '/#/chartsPage',
+        type: 2,
+        icon: 'home'
+    },
+    {
         title: '客户管理',
         url: '/#/clientManagement',
         type: 2,

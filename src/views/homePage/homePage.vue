@@ -66,7 +66,7 @@
                         </a-tab-pane>
                     </a-tabs>
 
-                    <charts-page v-show="!tabList.length"></charts-page>
+<!--                    <charts-page v-show="!tabList.length"></charts-page>-->
                 </a-layout-content>
 
             </a-layout>
