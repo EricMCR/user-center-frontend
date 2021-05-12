@@ -5,44 +5,67 @@
         </dynamic-table>
 
         <a-modal dialogClass="form-modal" v-model="visible" centered
-                 title="评价列表" @cancel="handleClose"
+                 title="审核信息" @cancel="handleClose"
                  :footer="null">
             <a-spin :spinning="loading" style="width: 100%;">
-                <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin />
-                <a-list
-                    class="comment-list"
-                    :header="`${this.commentList.length}条评论`"
-                    item-layout="horizontal"
-                    :data-source="this.commentList"
-                >
-                    <a-list-item slot="renderItem" slot-scope="item, index">
-                        <a-comment>
-                            <template slot="author">
-                                <p style="font-size: 16px;">{{ item.nickname ? item.nickname : '匿名用户' }}</p>
-                            </template>
-                            <template slot="avatar">
-                                <a-avatar
-                                    shape="circle"
-                                    size="default"
-                                    :style="{ backgroundColor: colorList[(index+1)%4], verticalAlign: 'middle' }">
-                                    {{ item.nickname ? item.nickname[0] : '用户' }}
-                                </a-avatar>
-                            </template>
-                            <p slot="content">
-                                {{ item.comments }}
-                            </p>
-                            <template slot="actions">
-                                <p style="font-size: 13px;">{{ item.createTime }}</p>
-                            </template>
-                            <template slot="datetime">
-                                <a-rate :default-value="item.score" disabled />
-                            </template>
-                        </a-comment>
-                    </a-list-item>
-                </a-list>
+                <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin/>
+                <a-descriptions :column="1">
+                    <a-descriptions-item label="审核结果">
+                        {{ form.stateName }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="审核备注">
+                        {{ form.audit }}
+                    </a-descriptions-item>
+                </a-descriptions>
             </a-spin>
+        </a-modal>
 
+        <a-modal dialogClass="form-modal2" v-model="visible2" centered
+                 title="审核详情" @cancel="handleClose">
+            <a-spin :spinning="loading2" style="width: 100%;">
+                <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin/>
+                <a-descriptions :column="2">
+                    <a-descriptions-item label="姓名">
+                        {{ form.name }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="性别">
+                        {{ form.sex }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="年龄">
+                        {{ form.age }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="手机号">
+                        {{ form.phone }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="身份证号" :span="2">
+                        {{ form.idCard }}
+                    </a-descriptions-item>
+                    <a-descriptions-item label="驾照" :span="2">
+                        <figure class="image is-128x128" @click="openImg" style="cursor: pointer;">
+                            <img :src="form.licenseImg">
+                        </figure>
+                    </a-descriptions-item>
+                </a-descriptions>
+            </a-spin>
+            <template slot="footer">
+                <a-button key="back" @click="handleClose">
+                    取消
+                </a-button>
+                <a-button key="refuse" type="danger" @click="handleRefuse">
+                    拒绝
+                </a-button>
+                <a-button key="approve" type="primary" @click="handleApprove">
+                    通过
+                </a-button>
+            </template>
+        </a-modal>
 
+        <a-modal dialogClass="form-modal3" v-model="visible3" centered
+                 :footer="null">
+            <figure>
+                <img style="border-radius: 4px;"
+                     :src="form.licenseImg">
+            </figure>
         </a-modal>
     </div>
 </template>
@@ -56,29 +79,65 @@ export default {
         return {
             config: pageConfig,
 
-            commentList: [],
+            form: {
+                age: "",
+                audit: "",
+                createTime: "",
+                id: "",
+                idCard: "",
+                licenseImg: "",
+                name: "",
+                phone: "",
+                sex: "",
+                state: '',
+                stateName: "",
+                updateTime: ""
+            },
+
+
             loading: true,
-
             visible: false,
-            labelCol: {span: 6},
-            wrapperCol: {span: 17},
-            layout: 'horizontal',
 
-            colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae']
+            loading2: true,
+            visible2: false,
+
+            visible3: false
+
+
         }
     },
     methods: {
         handleClick(event, row) {
             switch (event) {
-                case 'comment':
+                case 'remark':
                     this.loading = true;
                     this.visible = true;
-                    this.getCommentData(row.id)
+                    Object.assign(this.form, row)
+                    this.loading = false;
+                    break;
+                case 'audit':
+                    this.loading2 = true;
+                    this.visible2 = true;
+                    Object.assign(this.form, row)
+                    this.loading2 = false;
                     break;
             }
         },
         handleClose() {
-            this.commentList = []
+            // this.form = {
+            //     age: "",
+            //     audit: "",
+            //     createTime: "",
+            //     id: "",
+            //     idCard: "",
+            //     licenseImg: "",
+            //     name: "",
+            //     phone: "",
+            //     sex: "",
+            //     state: '',
+            //     stateName: "",
+            //     updateTime: ""
+            // }
         },
         getCommentData(driverId) {
             this.$request({
@@ -92,45 +151,68 @@ export default {
                     this.commentList = res.data.data.list;
                     console.log(this.commentList)
                     this.loading = false;
-                }else {
+                } else {
                     this.$message.warning(res.data.desc);
                 }
             })
+        },
+        handleRefuse() {
+            this.$request({
+                url: '/driver/refused',
+                method: 'POST',
+                data: {
+                    driverId: this.form.id
+                }
+            }).then(res => {
+                if (res.data.status == '200') {
+                    this.$message.success('操作成功');
+                    this.$refs.table.refresh();
+                } else {
+                    this.$message.warning(res.data.desc);
+                }
+            })
+        },
+        handleApprove() {
+            this.$request({
+                url: '/driver/approved',
+                method: 'POST',
+                data: {
+                    driverId: this.form.id
+                }
+            }).then(res => {
+                if (res.data.status == '200') {
+                    this.$message.success('操作成功');
+                    this.$refs.table.refresh();
+                } else {
+                    this.$message.warning(res.data.desc);
+                }
+            })
+        },
+        openImg() {
+            this.visible3 = true;
         }
     }
 }
 </script>
 
 <style>
-.form-modal .ant-modal-content .ant-modal-body {
-    padding: 5px 23px;
+.form-modal, .form-modal2 .ant-modal-content .ant-modal-body {
+    padding: 15px 23px;
     max-height: calc(100vh - 160px);
     overflow-y: auto;
 }
 
 .form-modal {
-    width: 80%!important;
+    width: 650px !important;
 }
 
-.form-modal .ant-rate {
-    font-size: 15px;
+.form-modal2 {
+    width: 70% !important;
+    min-width: 650px;
 }
 
-.form-modal .ant-rate .ant-rate-star:not(:last-child) {
-    margin: 1px;
-}
-
-.form-modal .ant-comment {
-    width: 100%;
-}
-
-.form-modal .ant-comment-content-author-time {
-    color: rgba(0, 0, 0, 0.65);
-}
-
-.form-modal .ant-comment-actions {
-    display: flex;
-    flex-direction: row-reverse;
+.form-modal3 .ant-modal-body {
+    padding: 0px;
 }
 
 .main-box .login-box input::-webkit-outer-spin-button,
