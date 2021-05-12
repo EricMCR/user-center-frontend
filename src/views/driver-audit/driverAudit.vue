@@ -67,6 +67,16 @@
                      :src="form.licenseImg">
             </figure>
         </a-modal>
+
+        <a-modal dialogClass="form-modal4" v-model="visible4" centered title="审核拒绝"
+                 @ok="submitRefuse">
+            <a-form-model ref="form" :model="form" :rules="rules" layout="horizontal" labelAlign="left"
+                          :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-form-model-item label="拒绝原因" prop="auditRemark">
+                    <a-input v-model="form.auditRemark" placeholder="请输入"></a-input>
+                </a-form-model-item>
+            </a-form-model>
+        </a-modal>
     </div>
 </template>
 
@@ -91,8 +101,15 @@ export default {
                 sex: "",
                 state: '',
                 stateName: "",
-                updateTime: ""
+                updateTime: "",
+                auditRemark: ''
             },
+            rules: {
+                auditRemark: [
+                    {required: true, message: '请输入原因', trigger: 'change'}
+                ]
+            },
+
 
 
             loading: true,
@@ -101,8 +118,12 @@ export default {
             loading2: true,
             visible2: false,
 
-            visible3: false
+            visible3: false,
+            visible4: false,
 
+            labelCol: {span: 5},
+            wrapperCol: {span: 17},
+            layout: 'horizontal',
 
         }
     },
@@ -157,18 +178,29 @@ export default {
             })
         },
         handleRefuse() {
-            this.$request({
-                url: '/driver/refused',
-                method: 'POST',
-                data: {
-                    driverId: this.form.id
-                }
-            }).then(res => {
-                if (res.data.status == '200') {
-                    this.$message.success('操作成功');
-                    this.$refs.table.refresh();
-                } else {
-                    this.$message.warning(res.data.desc);
+            this.visible4 = true;
+
+        },
+        submitRefuse() {
+            this.$refs['form'].validate(valid => {
+                if (valid) {
+                    this.$request({
+                        url: '/driver/refused',
+                        method: 'POST',
+                        data: {
+                            id: this.form.id,
+                            audit: this.form.auditRemark
+                        }
+                    }).then(res => {
+                        if (res.data.status == '200') {
+                            this.$message.success('操作成功');
+                            this.visible4 = false;
+                            this.visible2 = false;
+                            this.$refs.table.refresh();
+                        } else {
+                            this.$message.warning(res.data.desc);
+                        }
+                    })
                 }
             })
         },
@@ -177,11 +209,12 @@ export default {
                 url: '/driver/approved',
                 method: 'POST',
                 data: {
-                    driverId: this.form.id
+                    id: this.form.id
                 }
             }).then(res => {
                 if (res.data.status == '200') {
                     this.$message.success('操作成功');
+                    this.visible2 = false;
                     this.$refs.table.refresh();
                 } else {
                     this.$message.warning(res.data.desc);
