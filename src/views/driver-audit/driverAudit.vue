@@ -37,7 +37,7 @@
                     <a-descriptions-item label="手机号">
                         {{ form.phone }}
                     </a-descriptions-item>
-                    <a-descriptions-item label="身份证号" :span="2">
+                    <a-descriptions-item label="身份证号">
                         {{ form.idCard }}
                     </a-descriptions-item>
                     <a-descriptions-item label="驾照" :span="2">
@@ -63,7 +63,7 @@
         <a-modal dialogClass="form-modal3" v-model="visible3" centered
                  :footer="null">
             <figure>
-                <img style="border-radius: 4px;"
+                <img style="border-radius: 4px; width: 100%; height: 100%;"
                      :src="form.licenseImg">
             </figure>
         </a-modal>
@@ -145,20 +145,21 @@ export default {
             }
         },
         handleClose() {
-            // this.form = {
-            //     age: "",
-            //     audit: "",
-            //     createTime: "",
-            //     id: "",
-            //     idCard: "",
-            //     licenseImg: "",
-            //     name: "",
-            //     phone: "",
-            //     sex: "",
-            //     state: '',
-            //     stateName: "",
-            //     updateTime: ""
-            // }
+            this.visible2 = false;
+            this.form = {
+                age: "",
+                audit: "",
+                createTime: "",
+                id: "",
+                idCard: "",
+                licenseImg: "",
+                name: "",
+                phone: "",
+                sex: "",
+                state: '',
+                stateName: "",
+                updateTime: ""
+            }
         },
         getCommentData(driverId) {
             this.$request({
@@ -239,7 +240,7 @@ export default {
     width: 650px !important;
 }
 
-.form-modal2 {
+.form-modal2, .form-modal3 {
     width: 70% !important;
     min-width: 650px;
 }
