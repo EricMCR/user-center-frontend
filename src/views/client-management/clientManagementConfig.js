@@ -63,7 +63,7 @@ const query = {
             type: 'text'
         },
         {
-            key: 'mobile_no',
+            key: 'mobileNo',
             label: '手机号',
             type: 'number'
         },
