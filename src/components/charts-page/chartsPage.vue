@@ -4,24 +4,29 @@
             <a-col :span="12">
                 <div class="col-item">
                     <a-card>
-                        <a-card-meta title="王建">
+                        <a-card-meta :title="userInfo.name">
                             <a-avatar
                                 slot="avatar"
                                 src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
                             />
+<!--                            <a-avatar-->
+<!--                                slot="avatar"-->
+<!--                                :style="{ backgroundColor: color, verticalAlign: 'middle' }">-->
+<!--                                {{userInfo.name[0]}}-->
+<!--                            </a-avatar>-->
                             <template slot="description">
                                 <a-descriptions :column="1">
                                     <a-descriptions-item label="角色">
-                                        empty
+                                        {{userInfo.authName}}
                                     </a-descriptions-item>
                                     <a-descriptions-item label="性别">
-                                        Zhou Maomao
+                                        {{userInfo.sex}}
                                     </a-descriptions-item>
                                     <a-descriptions-item label="年龄">
-                                        1810000000
+                                        {{userInfo.age}}
                                     </a-descriptions-item>
                                     <a-descriptions-item label="手机号">
-                                        Hangzhou, Zhejiang
+                                        {{userInfo.phone}}
                                     </a-descriptions-item>
                                 </a-descriptions>
 
@@ -68,28 +73,50 @@ export default {
     name: "chartsPage",
     data() {
         return {
+            userInfo: {
+                age: '',
+                auth: '',
+                authName: "",
+                id: '',
+                idCard: '',
+                name: "",
+                phone: "",
+                sex: "",
+            },
             chart1: '',
-            chart2: ''
+            chart2: '',
+
+            color: '#f56a00',
+            colorList: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'],
         }
     },
+    created() {
+        this.initUserData();
+        this.initData();
+    },
     mounted() {
+        this.chart1 = this.$echarts.init(document.getElementById('chart1'));
         this.chart2 = this.$echarts.init(document.getElementById('chart2'));
         this.chart2.setOption({
             title: {
-                text: 'ECharts 入门示例'
+                text: '代驾接单量TOP7'
             },
-            tooltip: {},
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'line'
+                }
+            },
             xAxis: {
                 data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
             },
             yAxis: {},
             series: [{
-                name: '销量',
+                name: '接单量',
                 type: 'bar',
                 data: [5, 20, 36, 10, 10, 20]
             }]
         });
-        this.chart1 = this.$echarts.init(document.getElementById('chart1'));
         this.chart1.setOption({
             title: {
                 text: '本周内订单量'
@@ -102,7 +129,7 @@ export default {
             },
             xAxis: {
                 type: 'category',
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+                data: this.getOneWeekDate()
             },
             yAxis: {
                 type: 'value'
@@ -117,6 +144,27 @@ export default {
         window.onresize = () => {
             this.chart1.resize();
             this.chart2.resize();
+        }
+    },
+    methods: {
+        //加载用户信息数据
+        initUserData() {
+            this.userInfo = this.$store.getters.getUserInfo;
+        },
+        //加载图表数据
+        initData() {
+
+        },
+        //获取一周内日期列表
+        getOneWeekDate() {
+            let dateList = [];
+            const now = new Date();
+            for (let i = 6; i >= 0; i--) {
+                let day = new Date();
+                day.setTime(now.getTime()-24*3600*1000*i);
+                dateList.push('' + (day.getMonth()+1) + '-' + day.getDate());
+            }
+            return dateList;
         }
     }
 }
