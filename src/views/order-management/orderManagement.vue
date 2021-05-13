@@ -35,9 +35,9 @@
         <a-modal dialogClass="form-modal" v-model="visible2" centered
                  title="订单评价"
                  @cancel="handleClose2" :width="600"
-                :footer="null">
+                 :footer="null">
             <a-spin :spinning="loading" style="width: 100%;">
-                <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin />
+                <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin/>
                 <a-comment>
                     <template slot="author">
                         <p style="font-size: 16px;">{{ commentData.nickname ? commentData.nickname : '匿名用户' }}</p>
@@ -57,10 +57,24 @@
                         <p style="font-size: 13px;">{{ commentData.createTime }}</p>
                     </template>
                     <template slot="datetime">
-                        <a-rate :value="commentData.score" disabled />
+                        <a-rate :value="commentData.score" disabled/>
                     </template>
                 </a-comment>
             </a-spin>
+        </a-modal>
+
+        <a-modal dialogClass="form-modal" v-model="visible3" centered
+                 title="查看原因" @cancel="handleClose"
+                 :footer="null">
+            <a-icon slot="indicator" type="loading" style="font-size: 30px; margin: 0 auto;" spin/>
+            <a-descriptions :column="1">
+                <a-descriptions-item label="订单状态">
+                    {{ form.stateName }}
+                </a-descriptions-item>
+                <a-descriptions-item label="取消原因">
+                    {{ form.reason }}
+                </a-descriptions-item>
+            </a-descriptions>
         </a-modal>
     </div>
 </template>
@@ -115,7 +129,9 @@ export default {
                 score: 0,
                 createTime: '',
                 lastUpdateTime: ''
-            }
+            },
+
+            visible3: false
         }
     },
     methods: {
@@ -157,6 +173,10 @@ export default {
                     this.loading = true;
                     this.visible2 = true;
                     this.initComment(row.id);
+                    break;
+                case 'reason':
+                    Object.assign(this.form, row);
+                    this.visible3 = true;
                     break;
             }
         },

@@ -151,7 +151,7 @@ const handle = {
             event: 'edit',
             icon: 'edit',
             ifRender(row) {
-                return row.state != 2;
+                return row.state == 0;
             }
         },
         {
@@ -161,6 +161,15 @@ const handle = {
             icon: 'file-search',
             ifRender(row){
                 return row.state === 2;
+            }
+        },
+        {
+            label: '查看原因',
+            type: 'primary',
+            event: 'reason',
+            icon: 'file-search',
+            ifRender(row){
+                return row.state === 3;
             }
         }
     ]
