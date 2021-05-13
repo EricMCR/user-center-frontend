@@ -115,7 +115,7 @@ export default {
 
             //侧边菜单列表
             menuList: menuList,
-            selectedMenuKeys: [''],
+            selectedMenuKeys: ['/#/chartsPage'],
 
             //当前标签页列表
             tabList: [],
@@ -149,6 +149,10 @@ export default {
     },
     created() {
         this.initLogoutBox();
+
+        //默认打开首页
+        let data = this.getTabData('/#/chartsPage');
+        this.addTab(data);
     },
     methods: {
         ...mapMutations(['removeLogin']),
