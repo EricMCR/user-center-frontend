@@ -40,7 +40,7 @@
                                 <a-icon :type="item.icon" />
                                 <span>{{item.title}}</span>
                             </span>
-                            <a-menu-item v-for="subItem in item.subMenuList" :key="subItem.url">
+                            <a-menu-item v-for="subItem in item.subMenuList" :key="subItem.url" :disabled="item.disabled">
                                 <a-icon :type="subItem.icon" />
                                 <span>{{subItem.title}}</span>
                             </a-menu-item>
@@ -148,6 +148,7 @@ export default {
         }
     },
     created() {
+        this.menuIfDisabledCheck();
         this.initLogoutBox();
 
         //默认打开首页
@@ -230,6 +231,17 @@ export default {
                 oldPassword: '',
                 newPassword: '',
                 comfirmPassword: ''
+            }
+        },
+        //菜单权限检查
+        menuIfDisabledCheck() {
+            const auth = this.$store.getters.getUserInfo.auth;
+            for (let item of menuList) {
+                if (item.allowedAuth && item.allowedAuth.length) {
+                    if (!item.allowedAuth.includes(auth)) {
+                        item.disabled = true;
+                    }
+                }
             }
         },
         submitForm(formName) {

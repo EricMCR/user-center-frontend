@@ -5,25 +5,29 @@ export const menuList = [
         title: '首页',
         url: '/#/chartsPage',
         type: 2,
-        icon: 'home'
+        icon: 'home',
+        allowedAuth: [0, 1, 2]
     },
     {
         title: '客户管理',
         url: '/#/clientManagement',
         type: 2,
-        icon: 'user'
+        icon: 'user',
+        allowedAuth: [0, 1, 2]
     },
     {
         title: '地址管理',
         url: '/#/addressManagement',
         type: 2,
-        icon: 'environment'
+        icon: 'environment',
+        allowedAuth: [0, 1, 2]
     },
     {
         title: '订单管理',
         url: '/#/orderManagement',
         type: 2,
-        icon: 'money-collect'
+        icon: 'money-collect',
+        allowedAuth: [0, 1, 2]
     },
     {
         title: '代驾管理',
@@ -42,12 +46,14 @@ export const menuList = [
                 icon: 'audit'
             }
         ],
-        icon: 'car'
+        icon: 'car',
+        allowedAuth: [1, 2]
     },
     {
         title: '管理员管理',
         url: '/#/adminManagement',
         type: 2,
-        icon: 'setting'
+        icon: 'setting',
+        allowedAuth: [2]
     }
 ]
