@@ -236,7 +236,7 @@ export default {
         },
         //菜单权限检查
         menuIfDisabledCheck() {
-            const auth = this.$store.getters.getUserInfo.auth;
+            const auth = JSON.parse(localStorage.getItem('userInfo')).auth;
             for (let item of menuList) {
                 if (item.allowedAuth && item.allowedAuth.length) {
                     if (!item.allowedAuth.includes(auth)) {
