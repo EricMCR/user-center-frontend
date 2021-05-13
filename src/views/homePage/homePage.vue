@@ -241,6 +241,8 @@ export default {
                 if (item.allowedAuth && item.allowedAuth.length) {
                     if (!item.allowedAuth.includes(auth)) {
                         item.disabled = true;
+                    }else {
+                        item.disabled = false;
                     }
                 }
             }
