@@ -156,7 +156,7 @@ export default {
         this.addTab(data);
     },
     methods: {
-        ...mapMutations(['removeLogin']),
+        ...mapMutations(['removeLogin', 'updateState']),
         initLogoutBox() {
             this.id = this.$store.state.id;
             this.username = this.$store.state.username;
@@ -170,6 +170,7 @@ export default {
         //注销账号
         logout() {
             this.removeLogin();
+            this.updateState();
             this.$router.push('/login');
         },
         //处理侧边菜单选中事件
