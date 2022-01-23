@@ -73,7 +73,7 @@ export default {
                 if (valid) {
                     this.loading = true;
                     this.$request({
-                        url: '/admin/login',
+                        url: '/manager/login',
                         method: 'POST',
                         data: {
                             phone: this.form.mobileNo,
@@ -81,8 +81,8 @@ export default {
                         }
                     }).then(res => {
                         this.loading = false;
-                        if (res.data.status != "200") {
-                            this.$message.warning(res.data.desc);
+                        if (res.data.code != "200") {
+                            this.$message.warning(res.msg);
                         }else {
                             if (this.rememberMe) {
                                 this.rememberLoginInfo();
@@ -91,10 +91,7 @@ export default {
                             }
                             this.changeLogin( {
                                 Authorization: res.data.data.token,
-                                username: res.data.data.adminVO.name,
-                                id: res.data.data.adminVO.id,
-                                auth: res.data.data.adminVO.auth,
-                                userInfo: JSON.stringify(res.data.data.adminVO)
+                                userInfo: res.data.data.managerDto
                             } );
                             this.updateState();
                             this.$router.push('/homePage');

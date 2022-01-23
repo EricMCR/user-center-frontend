@@ -148,18 +148,19 @@ export default {
         }
     },
     created() {
-        this.menuIfDisabledCheck();
+        // this.menuIfDisabledCheck();
         this.initLogoutBox();
-
-        //默认打开首页
-        let data = this.getTabData('/#/chartsPage');
-        this.addTab(data);
+        //
+        // //默认打开首页
+        // let data = this.getTabData('/#/chartsPage');
+        // this.addTab(data);
     },
     methods: {
         ...mapMutations(['removeLogin', 'updateState']),
         initLogoutBox() {
-            this.id = this.$store.state.id;
-            this.username = this.$store.state.username;
+            let userInfo = JSON.parse(this.$store.state.userInfoText);
+            this.id = userInfo.id;
+            this.username = userInfo.username;
             const index = Math.round(Math.random() * 3);
             this.color = this.colorList[index];
         },
