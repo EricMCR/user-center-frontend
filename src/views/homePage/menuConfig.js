@@ -9,7 +9,7 @@ export const menuList = [
         allowedAuth: [0, 1, 2]
     },
     {
-        title: '客户管理',
+        title: '用户管理',
         url: '/#/clientManagement',
         type: 2,
         icon: 'user',
