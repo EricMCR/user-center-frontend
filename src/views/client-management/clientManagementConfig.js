@@ -1,40 +1,40 @@
 const columns = [
     {
-        key: 'name',
-        title: '姓名',
+        key: 'username',
+        title: '昵称',
         fixed: 'left',
         width: 120
     },
     {
-        key: 'nickname',
-        title: '昵称',
+        key: 'userAccount',
+        title: '账号',
         width: 140
     },
     {
-        key: 'sex',
+        key: 'genderText',
         title: '性别',
         type: 'tag',
         color(row) {
-            return row.sex === '男' ? 'blue' : 'red';
+            return row.gender == 0 ? 'blue' : 'red';
         },
         width: 70
     },
     {
-        key: 'mobileNo',
+        key: 'phone',
         title: '手机号',
         width: 140
     },
     {
-        key: 'idCard',
-        title: '身份证号',
+        key: 'email',
+        title: '邮箱',
         width: 180
     },
     {
-        key: 'stateName',
+        key: 'statusText',
         title: '状态',
         type: 'tag',
         color(row) {
-            return row.state ? 'green' : 'orange';
+            return row.status ? 'green' : 'orange';
         },
         width: 130
     },
@@ -44,7 +44,7 @@ const columns = [
         width: 170
     },
     {
-        key: 'lastUpdateTime',
+        key: 'updateTime',
         title: '更新时间',
         width: 170
     }
@@ -119,16 +119,27 @@ const handle = {
 }
 
 const requestOptions = {
-    url: '/user/selectPage',
+    url: '/user/search',
     method: 'POST',
     params: {
 
     }
 }
 
+const formatData = (data) => {
+    return data.map(item => {
+
+        item.genderText = item.gender == 0 ? '男' : '女';
+        item.statusText = item.status == 0 ? '正常' : '';
+
+        return item;
+    });
+}
+
 export const pageConfig = {
     columns,
     query,
     handle,
-    requestOptions
+    requestOptions,
+    formatData
 }

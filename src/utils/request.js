@@ -4,7 +4,7 @@ import store from '@/store'
 const request = axios.create({
     baseURL: '/api',
     headers: {
-        Authorization: store.state.Authorization
+        token: store.state.token
     },
     timeout: 50000
 });

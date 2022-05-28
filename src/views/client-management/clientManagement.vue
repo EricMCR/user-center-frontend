@@ -1,6 +1,6 @@
 <template>
     <div>
-        <dynamic-table ref="table" :pageConfig="config" @handleClick="handleClick">
+        <dynamic-table ref="table" :pageConfig="config" :formatData="config.formatData" @handleClick="handleClick">
 
 <!--            <a-button slot="query-button" type="primary" icon="plus" @click="handleAdd">新增</a-button>-->
 

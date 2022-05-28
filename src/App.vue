@@ -33,7 +33,7 @@ export default {
         handleOperation() {
             let currentClickTime = new Date().getTime();
             if (currentClickTime - parseInt(localStorage.getItem('lastClickTime')) > this.timeRange) {
-                let token = localStorage.getItem('Authorization');
+                let token = localStorage.getItem('token');
                 if (token !== null && token !== '') {
                     this.removeLogin();
                     this.$modal.warning({

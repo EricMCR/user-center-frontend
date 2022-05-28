@@ -171,8 +171,8 @@ export default {
                 method: method,
                 data: entireParams
             }).then(res => {
-                if (res.data.status == '200') {
-                    res.data.data.list.forEach(item => {
+                if (res.data.success) {
+                    res.data.data.forEach(item => {
                         for (let data in item) {
                             if (!item[data] || item[data] === 'null') {
                                 item[data] = '';
@@ -180,11 +180,11 @@ export default {
                         }
                         return item;
                     })
-                    this.data = res.data.data.list;
+                    this.data = res.data.data;
                     this.totalCount = res.data.data.totalCount;
                     this.loading = false;
-                } else if (res.data.status == '403') {
-                    localStorage.removeItem('Authorization');
+                } else if (res.data.status === 403) {
+                    localStorage.removeItem('token');
                     localStorage.removeItem('username');
                     this.$modal.warning({
                         title: '登陆超时，请重新登录',
